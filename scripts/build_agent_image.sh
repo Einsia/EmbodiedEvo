@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
-# Build a thin CLI image from the operator's installed standalone Codex release.
+# Optional wrapper around the standalone Dockerfile; no host Codex is needed.
 set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-codex_binary="${1:-$(command -v codex)}"
-image="${2:-embodiedrsi-agent:latest}"
-build_dir="$(mktemp -d)"
-trap 'rm -rf "$build_dir"' EXIT
-cp "$repo_root/docker/agent/Dockerfile" "$build_dir/Dockerfile"
-mkdir "$build_dir/bin"
-cp -L "$codex_binary" "$build_dir/bin/codex"
-# Recent releases execute code-mode tools in a sibling host binary. Copy only
-# this release's CLI executables, never its config, credentials or session data.
-codex_release_bin="$(dirname "$(readlink -f "$codex_binary")")"
-if [[ -f "$codex_release_bin/codex-code-mode-host" ]]; then
-  cp -L "$codex_release_bin/codex-code-mode-host" "$build_dir/bin/"
+if [[ $# -gt 1 ]]; then
+  echo "Usage: $0 [image-tag]" >&2
+  exit 2
 fi
-proxy_args=()
+image="${1:-embodiedrsi-agent:latest}"
+build_args=()
 if [[ -n "${EMBODIEDRSI_BUILD_HTTP_PROXY:-}" ]]; then
-  proxy_args+=(--build-arg "HTTP_PROXY=$EMBODIEDRSI_BUILD_HTTP_PROXY")
-  proxy_args+=(--build-arg "HTTPS_PROXY=$EMBODIEDRSI_BUILD_HTTP_PROXY")
+  build_args+=(--build-arg "HTTP_PROXY=$EMBODIEDRSI_BUILD_HTTP_PROXY")
+  build_args+=(--build-arg "HTTPS_PROXY=$EMBODIEDRSI_BUILD_HTTP_PROXY")
 fi
-docker build --tag "$image" "${proxy_args[@]}" \
-  --build-arg "BASE_IMAGE=${EMBODIEDRSI_AGENT_BASE_IMAGE:-python:3.11-slim-bookworm}" \
-  --build-arg "DEBIAN_MIRROR=${EMBODIEDRSI_AGENT_DEBIAN_MIRROR:-https://deb.debian.org}" \
-  --build-arg "PIP_INDEX_URL=${EMBODIEDRSI_AGENT_PIP_INDEX_URL:-https://pypi.org/simple}" \
-  "$build_dir"
+for option in \
+  BASE_IMAGE:EMBODIEDRSI_AGENT_BASE_IMAGE \
+  NODE_IMAGE:EMBODIEDRSI_AGENT_NODE_IMAGE \
+  CODEX_VERSION:EMBODIEDRSI_CODEX_VERSION \
+  DEBIAN_MIRROR:EMBODIEDRSI_AGENT_DEBIAN_MIRROR \
+  PIP_INDEX_URL:EMBODIEDRSI_AGENT_PIP_INDEX_URL \
+  NPM_REGISTRY:EMBODIEDRSI_AGENT_NPM_REGISTRY; do
+  variable="${option#*:}"
+  if [[ -n "${!variable:-}" ]]; then
+    build_args+=(--build-arg "${option%%:*}=${!variable}")
+  fi
+done
+docker build --tag "$image" "${build_args[@]}" "$repo_root/docker/agent"
 docker run --rm --network none "$image" codex --version
-if [[ -f "$build_dir/bin/codex-code-mode-host" ]]; then
-  docker run --rm --network none "$image" test -x /usr/local/bin/codex-code-mode-host
-fi
+docker run --rm --network none "$image" python -c \
+  'import numpy, PIL, imageio; print("Agent Python/image dependencies OK; no model request sent.")'
+docker image inspect "$image" --format 'Agent image ready: {{.Id}}'

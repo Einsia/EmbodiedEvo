@@ -17,12 +17,24 @@ python3 -m venv .venv
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
+Build the thin coding-agent image directly from the included Dockerfile:
+
+```bash
+docker build -t embodiedrsi-agent:latest docker/agent
+```
+
+The Dockerfile installs pinned Codex CLI 0.159.2 and basic Python/image tools;
+no host Codex installation or API key is needed for the build. Its context
+contains no credentials, task files or simulator assets. Build
+the image on each Docker host that will run agents; the simulator is provisioned
+separately. See [the complete image build procedure](docs/INSTALL.md#thin-agent-container).
+
 Run commands from this repository root. The editable installation keeps task
 templates and recipes available at their source paths. The project is currently
 distributed as a source checkout, not a standalone wheel with simulator assets.
 
 Real episodes require a separately provisioned RoboDojo/Isaac Sim environment,
-assets, an available NVIDIA GPU, Docker, and a configured coding agent CLI.
+assets, an available NVIDIA GPU, Docker, and configured model credentials.
 Follow [installation](docs/INSTALL.md), including
 [Codex API configuration](docs/CODEX_API.md), before starting an experiment.
 

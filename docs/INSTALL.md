@@ -67,22 +67,62 @@ and reasoning effort override defaults in the Codex configuration.
 
 ## Thin agent container
 
-Install a standalone coding-agent CLI on the host and complete the API setup
-above. For the included Codex image builder:
+Build directly from the repository root; the host needs Docker, not a Codex or
+Node.js installation:
 
 ```bash
-bash scripts/build_agent_image.sh "$(command -v codex)" embodiedrsi-agent:latest
+docker build -t embodiedrsi-agent:latest docker/agent
+docker run --rm --network none embodiedrsi-agent:latest codex --version
+docker run --rm --network none embodiedrsi-agent:latest \
+  python -c 'import numpy, PIL, imageio; print("image tools OK")'
 ```
 
-The build context contains only the Dockerfile and CLI executables. The agent
-image does not contain a simulator, task definitions, credentials or GPU tools.
-Docker daemon access is required. The default image matches both task templates.
+The standalone `docker/agent/Dockerfile` installs `@openai/codex@0.159.2` from
+npm in a build stage, then includes its complete platform package and Node.js
+runtime in a Python 3.11 image. The version is pinned; changing it is explicit:
 
-At runtime, the launcher stages provider configuration and authentication from
-`EMBODIEDRSI_CODEX_HOME`, or the operator's normal Codex home if unset. Keep this
-directory outside the checkout. Host plugins, memories and project configuration
-are excluded from the staged agent home. Edit the explicit `model` and
-`reasoning_effort` in the task TOML before starting a new run.
+```bash
+docker build --build-arg CODEX_VERSION=0.159.2 \
+  -t embodiedrsi-agent:latest docker/agent
+```
+
+The npm installation method follows the [official Codex installation example](https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex).
+This is the same thin-container separation used in EAHarness. The build is
+independent of that checkout and of any host CLI files. It includes Git,
+ripgrep, ffmpeg, NumPy, Pillow and imageio; the simulator and CUDA remain outside
+the agent image. `docker/agent/.dockerignore` limits the context to build files.
+No API key, provider configuration, workspace, task data or assets enter the
+image. The build and version/import checks make no model API calls.
+
+An optional wrapper runs that same build, performs the checks and prints the
+resulting image ID:
+
+```bash
+bash scripts/build_agent_image.sh
+# Optional custom image tag:
+bash scripts/build_agent_image.sh embodiedrsi-agent:custom
+```
+
+The default tag matches both task templates. A different existing tag does not
+satisfy `embodiedrsi-agent:latest`; build the configured tag before launching.
+Docker images are local to each execution host. To reuse a verified build on a
+node without registry access:
+
+```bash
+docker save -o /path/outside/git/embodiedrsi-agent.tar embodiedrsi-agent:latest
+# On the execution host:
+docker load -i /path/outside/git/embodiedrsi-agent.tar
+docker image inspect embodiedrsi-agent:latest --format '{{.Id}}'
+```
+
+Record the image ID and CLI version with the run evidence. A successful image
+build checks the agent container; a live episode also needs the separately
+provisioned RoboDojo runtime and assets.
+
+At launch, the orchestrator stages provider configuration and authentication
+from `EMBODIEDRSI_CODEX_HOME`, or the operator's normal Codex home if unset.
+Host plugins, memories and project configuration are excluded. Set the explicit
+model and reasoning effort in `task.toml` before creating a run.
 
 Optional site settings are environment variables:
 
@@ -91,12 +131,28 @@ Optional site settings are environment variables:
 | `EMBODIEDRSI_CODEX_HOME` | External CLI configuration and authentication source |
 | `EMBODIEDRSI_AGENT_HTTPS_PROXY` | Proxy used by the agent container |
 | `EMBODIEDRSI_BUILD_HTTP_PROXY` | Proxy used during image construction |
-| `EMBODIEDRSI_AGENT_BASE_IMAGE` | Python base image for the thin agent |
+| `EMBODIEDRSI_AGENT_BASE_IMAGE` | Python base image (`BASE_IMAGE` build argument) |
+| `EMBODIEDRSI_AGENT_NODE_IMAGE` | Node.js build image (`NODE_IMAGE`) |
+| `EMBODIEDRSI_CODEX_VERSION` | Explicit CLI version (`CODEX_VERSION`) |
+| `EMBODIEDRSI_AGENT_DEBIAN_MIRROR` | Debian mirror (`DEBIAN_MIRROR`) |
+| `EMBODIEDRSI_AGENT_PIP_INDEX_URL` | Python package index (`PIP_INDEX_URL`) |
+| `EMBODIEDRSI_AGENT_NPM_REGISTRY` | npm registry (`NPM_REGISTRY`) |
 | `EMBODIEDRSI_RUNTIME_DIR` | Host directory for short-lived sockets and locks |
 | `EMBODIEDRSI_USE_RECIPE` | `1` includes public task recipes; `0` omits them |
 
-The agent's `filtered` network setting is a Docker bridge with outbound access;
-it is not a destination allowlist. `none` disables container networking.
+Build variables are consumed by the wrapper. With `docker build`, pass the
+corresponding `--build-arg` directly. The agent's `filtered` network setting is
+a Docker bridge with outbound access; `none` disables container networking.
+
+On hosts that require the shell's HTTP proxy for registry/package downloads:
+
+```bash
+docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY \
+  -t embodiedrsi-agent:latest docker/agent
+```
+
+These predefined Docker build arguments take their values from the environment;
+do not write proxy credentials or model API keys into the Dockerfile.
 
 ## Smoke check
 

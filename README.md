@@ -106,12 +106,11 @@ If you use EmbodiedEvo in your research, please cite the manuscript below.
 This provisional citation will be updated with the arXiv identifier after release.
 
 ```bibtex
-@unpublished{li2026embodiedevo,
+@misc{li2026embodiedevo,
   title  = {{EmbodiedEvo}: Self-improving Code Agents for Physical Intelligence},
   author = {Li, Wenyi and Chi, Yizhe and Zheng, Youjie and Liu, Chunyu and
             Wang, Xiaoqiu and Gao, Mingju and Jiang, Zheng and Hong, Deyao and
             Xiao, Calvin and Yang, Kaisen and Na, Qinhuai},
-  year   = {2026},
-  note   = {Unpublished manuscript}
+  year   = {2026}
 }
 ```

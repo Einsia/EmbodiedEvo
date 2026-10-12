@@ -1,4 +1,4 @@
-# EmbodiedRSI
+# EmbodiedEvo: Self-improving Code Agents for Physical Intelligence
 
 **Building visual and physical intelligence through code.**
 

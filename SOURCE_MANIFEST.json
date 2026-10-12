@@ -838,7 +838,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "9a6a3c051330b7d6d9a612890fd95d3c2375a67bb8f22d8701431455af431b91"
+      "sha256": "be08d5b10edb4c7949afc2c6e66a79be2b5cbe114d0b128b9da55a9ef4e14282"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -895,6 +895,10 @@
     {
       "path": "docker/agent/.dockerignore",
       "sha256": "dff903861d9f0c39b4b107cf206243154443e801c48042429b6eaeaa311c9f64"
+    },
+    {
+      "path": "docs/images/embodiedevo-hero.png",
+      "sha256": "fda9dcbaf6b7c036309c38ed3a4d6c006aa5f0297300c4fe7f7dd7b3ecf4bfa6"
     }
   ]
 }

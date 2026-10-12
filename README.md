@@ -1,5 +1,18 @@
 # EmbodiedEvo: Self-improving Code Agents for Physical Intelligence
 
+<!-- Release links: wrap each badge in an <a> when its page is available.
+     arXiv: https://arxiv.org/abs/ARXIV_ID
+     Project page: https://lab.einsia.ai/embodiedevo/
+     Update the provisional BibTeX entry below after the arXiv release. -->
+<p align="center">
+  <img src="https://img.shields.io/badge/arXiv-Coming%20soon-B31B1B?style=flat-square" alt="arXiv: coming soon" />
+  <img src="https://img.shields.io/badge/Project%20Page-Coming%20soon-315F85?style=flat-square" alt="Project Page: coming soon" />
+</p>
+
+<p align="center">
+  <img src="docs/images/embodiedevo-hero.png" alt="EmbodiedEvo overview: a coding agent learns Skills and Lessons from physical feedback in Playground, then freezes and transfers them to fresh agents in new Test scenes." width="100%" />
+</p>
+
 **Building visual and physical intelligence through code.**
 
 EmbodiedEvo runs a coding agent in a persistent RoboDojo simulation session. During
@@ -86,3 +99,19 @@ A project-wide license has not yet been selected. This is a local release
 preparation, not yet a licensed public release. The included RoboProbe task
 recipes retain their Apache-2.0 license and source attribution; see
 [third-party notices](THIRD_PARTY_NOTICES.md).
+
+## Citation
+
+If you use EmbodiedEvo in your research, please cite the manuscript below.
+This provisional citation will be updated with the arXiv identifier after release.
+
+```bibtex
+@unpublished{li2026embodiedevo,
+  title  = {{EmbodiedEvo}: Self-improving Code Agents for Physical Intelligence},
+  author = {Li, Wenyi and Chi, Yizhe and Zheng, Youjie and Liu, Chunyu and
+            Wang, Xiaoqiu and Gao, Mingju and Jiang, Zheng and Hong, Deyao and
+            Xiao, Calvin and Yang, Kaisen and Na, Qinhuai},
+  year   = {2026},
+  note   = {Unpublished manuscript}
+}
+```

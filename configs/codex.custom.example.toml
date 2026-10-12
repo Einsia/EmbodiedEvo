@@ -1,4 +1,4 @@
-# Copy to an external EMBODIEDRSI_CODEX_HOME/config.toml, then edit base_url.
+# Copy to an external EMBODIEDEVO_CODEX_HOME/config.toml, then edit base_url.
 # These model settings match the shipped tasks; choose a model your provider supports.
 model = "gpt-6-astra"
 model_reasoning_effort = "xhigh"

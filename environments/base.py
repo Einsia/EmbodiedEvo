@@ -35,7 +35,7 @@ def _code_space() -> spaces.Text:
 
 
 class Environment(Env):
-    """Common Gymnasium base for every EmbodiedRSI simulator environment.
+    """Common Gymnasium base for every EmbodiedEvo simulator environment.
 
     Subclasses construct their native simulator and call ``configure`` once
     it is available.  They implement normal Gymnasium ``reset`` plus a small

@@ -17,14 +17,14 @@ class LaunchModelTests(unittest.TestCase):
             host.mkdir()
             (host / "config.toml").write_text('model_provider = "host"\n')
             (host / "auth.json").write_text('{"OPENAI_API_KEY": "host-secret"}')
-            dedicated = root / ".config/embodiedrsi/codex"
+            dedicated = root / ".config/embodiedevo/codex"
             dedicated.mkdir(parents=True)
             (dedicated / "config.toml").write_text('model_provider = "container"\n')
             before = {p.name: p.read_bytes() for p in host.iterdir()}
             with (
                 patch.object(Path, "home", return_value=root),
                 patch.dict(os.environ, {
-                    "CODEX_HOME": str(host), "EMBODIEDRSI_CODEX_HOME": str(dedicated)
+                    "CODEX_HOME": str(host), "EMBODIEDEVO_CODEX_HOME": str(dedicated)
                 }, clear=True),
             ):
                 # Missing dedicated auth must not leak the host's API key.
@@ -56,13 +56,13 @@ class LaunchModelTests(unittest.TestCase):
                 self.assertIn(
                     'model_provider = "host"', (staged / ".codex/config.toml").read_text()
                 )
-                with patch.dict(os.environ, {"EMBODIEDRSI_CODEX_HOME": str(override)}):
+                with patch.dict(os.environ, {"EMBODIEDEVO_CODEX_HOME": str(override)}):
                     staged = launch_agent.stage_home(root / "selected")
                     self.assertIn(
                         'model_provider = "override"', (staged / ".codex/config.toml").read_text()
                     )
                 with (
-                    patch.dict(os.environ, {"EMBODIEDRSI_CODEX_HOME": str(root / "missing")}),
+                    patch.dict(os.environ, {"EMBODIEDEVO_CODEX_HOME": str(root / "missing")}),
                     self.assertRaisesRegex(ValueError, "Missing container Codex config"),
                 ):
                     launch_agent.stage_home(root / "rejected")
@@ -87,7 +87,7 @@ class LaunchModelTests(unittest.TestCase):
                     patch.object(launch_agent, "require_image"),
                     patch.object(launch_agent, "ensure_network"),
                     patch.object(launch_agent, "stage_home", return_value=home),
-                    patch.dict(os.environ, {"EMBODIEDRSI_AGENT_CPUSET": "0-3,128-131"}),
+                    patch.dict(os.environ, {"EMBODIEDEVO_AGENT_CPUSET": "0-3,128-131"}),
                 ):
                     _, argv = session_runner.agent_command(cfg, root, root / "socket", phase)
 
@@ -95,8 +95,8 @@ class LaunchModelTests(unittest.TestCase):
                 self.assertIn('model="gpt-6-astra"', inner)
                 self.assertIn('model_reasoning_effort="xhigh"', inner)
                 self.assertNotIn('model="gpt-5.6-sol"', inner)
-                self.assertIn("EMBODIEDRSI_SOCKET=/run/embodiedrsi/session.sock", argv)
-                self.assertIn(f"type=bind,src={root / 'socket'},dst=/run/embodiedrsi,readonly", argv)
+                self.assertIn("EMBODIEDEVO_SOCKET=/run/embodiedevo/session.sock", argv)
+                self.assertIn(f"type=bind,src={root / 'socket'},dst=/run/embodiedevo,readonly", argv)
                 for component in ("instruction.md", "primitives", "scripts", "observations"):
                     self.assertIn(
                         f"type=bind,src={root / 'workspace' / component},"
@@ -164,7 +164,7 @@ class DockerPreflightTests(unittest.TestCase):
                 patch.dict(
                     os.environ,
                     {"HTTPS_PROXY": "http://host-private:1234", **(
-                        {"EMBODIEDRSI_AGENT_HTTPS_PROXY": "http://172.18.0.1:17890"}
+                        {"EMBODIEDEVO_AGENT_HTTPS_PROXY": "http://172.18.0.1:17890"}
                         if explicit else {}
                     )},
                     clear=True,
@@ -202,5 +202,5 @@ class DockerPreflightTests(unittest.TestCase):
             patch.object(launch_agent, "_docker", return_value=response) as docker,
             self.assertRaisesRegex(RuntimeError, "cannot reach.*permission denied"),
         ):
-            launch_agent.require_image("embodiedrsi-agent:latest")
+            launch_agent.require_image("embodiedevo-agent:latest")
         self.assertEqual(docker.call_count, 1)

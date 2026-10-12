@@ -13,7 +13,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-REPO = Path(os.environ.get("EMBODIEDRSI_REPO", CODE_ROOT)).resolve()
+REPO = Path(os.environ.get("EMBODIEDEVO_REPO", CODE_ROOT)).resolve()
 SESSION_PROTOCOL = "workspace-session-v1"
 
 
@@ -187,7 +187,7 @@ def load_task(root: Path | str, *, env_task: str | None = None) -> TaskConfig:
                 else float(agent["timeout_sec"])
             ),
             isolation=agent.get("isolation", "docker"),
-            image=agent.get("image", "embodiedrsi-agent:latest"),
+            image=agent.get("image", "embodiedevo-agent:latest"),
             network=agent.get("network", "filtered"),
             cpus=int(agent.get("cpus", 4)),
             memory_mb=int(agent.get("memory_mb", 8192)),

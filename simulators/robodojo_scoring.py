@@ -110,7 +110,7 @@ def snapshot(env):
         "native_action_limit": getattr(env, "native_step_limit", None)
         if getattr(env, "official_action_limit", False) else None,
         "note": (
-            "Official task action limit; Score at the recorded stop under EmbodiedRSI sampling."
+            "Official task action limit; Score at the recorded stop under EmbodiedEvo sampling."
             if getattr(env, "official_action_limit", False)
             else "Native Score at the recorded stop; historical unlimited action budget."
         ),

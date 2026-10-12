@@ -9,7 +9,7 @@ explicit new `--run-dir` for each experiment. Directory prefixes use
 
 ```bash
 RUN_DIR="runs/$(date +%Y%m%d%H%M)_stack_bowls"
-.venv/bin/embodiedrsi run --task RoboDojo --env-task stack_bowls \
+.venv/bin/embodiedevo run --task RoboDojo --env-task stack_bowls \
   --run-dir "$RUN_DIR" --gpu 0
 ```
 
@@ -20,7 +20,7 @@ task settings are pinned, so do not change them during resume. A small smoke or
 subset run is not a full benchmark evaluation.
 
 ```bash
-.venv/bin/embodiedrsi test --task tasks_baseline/RoboDojo --env-task stack_bowls \
+.venv/bin/embodiedevo test --task tasks_baseline/RoboDojo --env-task stack_bowls \
   --run-dir "runs/$(date +%Y%m%d%H%M)_stack_bowls_baseline" --gpu 0
 ```
 

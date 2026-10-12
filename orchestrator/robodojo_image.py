@@ -1,6 +1,6 @@
 """Use a pinned RoboDojo image as the simulator interpreter, never as the agent.
 
-The provisioned .venv-robodojo/bin/python delegates here. EmbodiedRSI still owns
+The provisioned .venv-robodojo/bin/python delegates here. EmbodiedEvo still owns
 the session, adapter, budgets, source snapshot and all run artifacts.
 """
 
@@ -44,7 +44,7 @@ def docker_command(argv, profile, bridge, name):
         raise ValueError("Provision a real repository-local RoboDojo source snapshot")
     args = [
         "docker", "run", "--rm", "--init", "--name", name,
-        "--label", "embodiedrsi.role=simulator", "--log-driver", "none",
+        "--label", "embodiedevo.role=simulator", "--log-driver", "none",
         "--gpus", f"device={gpu}", "--network", "none", "--read-only",
         "--cap-drop", "ALL", "--security-opt", "no-new-privileges",
         "--shm-size", "8g", "--user", f"{os.getuid()}:{os.getgid()}",
@@ -54,9 +54,9 @@ def docker_command(argv, profile, bridge, name):
         # repository snapshot there too, rather than importing another checkout.
         "-v", f"{source}:{profile['source_root']}:ro",
         "-v", f"{run.parent}:{run.parent}",
-        "-v", f"{bridge}:/run/embodiedrsi",
+        "-v", f"{bridge}:/run/embodiedevo",
     ]
-    if cpuset := os.environ.get("EMBODIEDRSI_SIMULATOR_CPUSET"):
+    if cpuset := os.environ.get("EMBODIEDEVO_SIMULATOR_CPUSET"):
         # A Docker daemon does not inherit a Slurm task's CPU affinity.
         args += ["--cpuset-cpus", cpuset]
     if socket_arg := option(argv, "--socket"):
@@ -66,37 +66,37 @@ def docker_command(argv, profile, bridge, name):
     cache.mkdir(parents=True, exist_ok=True)
     args += ["-v", f"{cache}:/tmp/.nv"]
     if mirror := profile.get("material_mirror"):
-        args += ["-v", f"{mirror}:/opt/embodiedrsi-mdl:ro"]
+        args += ["-v", f"{mirror}:/opt/embodiedevo-mdl:ro"]
     kit_args = (
         f"--ext-folder {shlex.quote(profile.get('kit_ext_cache', '/opt/eah/kit-ext-cache/3'))} "
         "--/app/extensions/registryEnabled=false "
         "--/app/extensions/fsWatcherEnabled=false "
         "--/crashreporter/url='' --/crashreporter/skipOldDumpUpload=true "
         "--/privacy/performance=false --/privacy/usage=false "
-        "--portable-root /run/embodiedrsi/kit"
+        "--portable-root /run/embodiedevo/kit"
     )
     if threads := profile.get("kit_usd_threads"):
         kit_args += f" --/plugins/carb.tasking.plugin/threadCount={threads}"
     environment = {
-        "HOME": "/run/embodiedrsi/home", "XDG_RUNTIME_DIR": "/run/embodiedrsi/xdg",
-        "PYTHONPATH": str(CODE_ROOT), "EMBODIEDRSI_REPO": str(REPO),
+        "HOME": "/run/embodiedevo/home", "XDG_RUNTIME_DIR": "/run/embodiedevo/xdg",
+        "PYTHONPATH": str(CODE_ROOT), "EMBODIEDEVO_REPO": str(REPO),
         "PYTHONNOUSERSITE": "1", "PYTHONDONTWRITEBYTECODE": "1",
         "PYTHONUNBUFFERED": "1", "CUDA_VISIBLE_DEVICES": "0",
         "CUDA_DEVICE_ORDER": "PCI_BUS_ID", "NVIDIA_DRIVER_CAPABILITIES": "all",
         "VK_ICD_FILENAMES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
         "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
-        "EMBODIEDRSI_ROBODOJO_KIT_ARGS": kit_args,
+        "EMBODIEDEVO_ROBODOJO_KIT_ARGS": kit_args,
         "OMNI_KIT_ACCEPT_EULA": "YES", "ACCEPT_EULA": "Y",
         "OMP_NUM_THREADS": "1", "OPENBLAS_NUM_THREADS": "1", "MKL_NUM_THREADS": "1",
     }
     if mirror:
-        environment["EMBODIEDRSI_MDL_MIRROR"] = "/opt/embodiedrsi-mdl"
+        environment["EMBODIEDEVO_MDL_MIRROR"] = "/opt/embodiedevo-mdl"
     if profile.get("kit_usd_threads"):
         environment["PXR_WORK_THREAD_LIMIT"] = str(profile["kit_usd_threads"])
     if profile.get("video_threads"):
-        environment["EMBODIEDRSI_ROBODOJO_VIDEO_THREADS"] = str(profile["video_threads"])
+        environment["EMBODIEDEVO_ROBODOJO_VIDEO_THREADS"] = str(profile["video_threads"])
     if profile.get("renderer_barrier"):
-        environment["EMBODIEDRSI_ROBODOJO_RENDERER_BARRIER"] = "1"
+        environment["EMBODIEDEVO_ROBODOJO_RENDERER_BARRIER"] = "1"
     if threads := option(argv, "--cpu-threads"):
         if int(threads) > 0:
             # USD can be imported by image_entrypoint before the worker runs.
@@ -110,7 +110,7 @@ def docker_command(argv, profile, bridge, name):
     redirect = ""
     if "--ready-fd" in inner:
         inner[inner.index("--ready-fd") + 1] = "3"
-        redirect = "exec 3>/run/embodiedrsi/events; "
+        redirect = "exec 3>/run/embodiedevo/events; "
     invocation = [profile["python"], "-m", "simulators.image_entrypoint", *inner]
     gate_wait = ""
     if gate := option(argv, "--container-start-gate"):
@@ -123,7 +123,7 @@ def docker_command(argv, profile, bridge, name):
             "sleep 0.2; done; "
         )
     shell = (
-        'unset DISPLAY; mkdir -p "$HOME" "$XDG_RUNTIME_DIR" /run/embodiedrsi/kit; '
+        'unset DISPLAY; mkdir -p "$HOME" "$XDG_RUNTIME_DIR" /run/embodiedevo/kit; '
         'chmod 700 "$XDG_RUNTIME_DIR"; ' + gate_wait + redirect + "exec " + shlex.join(invocation)
     )
     return [*args, "-w", str(CODE_ROOT), "--entrypoint", "/bin/bash", image, "-c", shell]
@@ -132,7 +132,7 @@ def docker_command(argv, profile, bridge, name):
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     profile = json.loads(Path(os.environ.get(
-        "EMBODIEDRSI_ROBODOJO_RUNTIME_PROFILE", REPO / ".venv-robodojo/runtime.json"
+        "EMBODIEDEVO_ROBODOJO_RUNTIME_PROFILE", REPO / ".venv-robodojo/runtime.json"
     )).read_text())
     run_arg = option(argv, "--run-dir")
     if not run_arg:
@@ -141,7 +141,7 @@ def main(argv=None):
     run.parent.mkdir(parents=True, exist_ok=True)
     outgoing = option(argv, "--ready-fd")
     outgoing = int(outgoing) if outgoing is not None else None
-    name = f"embodiedrsi-sim-{os.getppid()}-{os.getpid()}"
+    name = f"embodiedevo-sim-{os.getppid()}-{os.getpid()}"
     state = {
         "name": name, "owner": os.getppid(), "pid": os.getpid(),
         "hostname": socket.gethostname(), "image": profile["image"],
@@ -155,7 +155,7 @@ def main(argv=None):
     signal.signal(signal.SIGTERM, terminate)
     signal.signal(signal.SIGINT, terminate)
     with tempfile.TemporaryDirectory(
-        prefix="embodiedrsi-image-", dir=os.environ.get("EMBODIEDRSI_SIMULATOR_TMPDIR")
+        prefix="embodiedevo-image-", dir=os.environ.get("EMBODIEDEVO_SIMULATOR_TMPDIR")
     ) as temporary:
         bridge = Path(temporary)
         bridge.chmod(0o755)

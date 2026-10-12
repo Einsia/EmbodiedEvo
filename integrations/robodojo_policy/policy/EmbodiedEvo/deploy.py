@@ -21,7 +21,7 @@ def _eval_one_episode(TASK_ENV, model_client):
         while not actions:
             actions = model_client.call(func_name="get_action")
         if len(actions) != 1:
-            raise ValueError("EmbodiedRSI requires a one-action chunk for closed-loop Python")
+            raise ValueError("EmbodiedEvo requires a one-action chunk for closed-loop Python")
         TASK_ENV.take_action(actions[0])
     # Only binary completion and termination reach the policy, never shaped
     # reward, score, layout id or object state. These are standard WS hooks.

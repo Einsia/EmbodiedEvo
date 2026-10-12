@@ -1,1 +1,1 @@
-"""EmbodiedRSI CPU and optional transport tests."""
+"""EmbodiedEvo CPU and optional transport tests."""

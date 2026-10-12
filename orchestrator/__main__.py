@@ -38,7 +38,7 @@ def _common(parser: argparse.ArgumentParser) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(
-        prog="embodiedrsi",
+        prog="embodiedevo",
         description="Test with fresh agents; baselines skip Playground and knowledge transfer.",
     )
     sub = ap.add_subparsers(dest="command", required=True)

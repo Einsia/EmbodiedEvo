@@ -11,10 +11,10 @@ RECIPE_DIR = Path(__file__).resolve().parents[1] / "tasks/RoboDojo/recipe"
 
 
 def append_recipe(inputs, task, *, directory=None):
-    """EMBODIEDRSI_USE_RECIPE=0 disables recipes; existing run inputs are never rebuilt."""
-    enabled = os.environ.get("EMBODIEDRSI_USE_RECIPE", "1")
+    """EMBODIEDEVO_USE_RECIPE=0 disables recipes; existing run inputs are never rebuilt."""
+    enabled = os.environ.get("EMBODIEDEVO_USE_RECIPE", "1")
     if enabled not in {"0", "1"}:
-        raise ValueError("EMBODIEDRSI_USE_RECIPE must be 0 or 1")
+        raise ValueError("EMBODIEDEVO_USE_RECIPE must be 0 or 1")
     if enabled == "0":
         return {"enabled": False}
     if not re.fullmatch(r"[A-Za-z0-9_]+", task):
@@ -23,7 +23,7 @@ def append_recipe(inputs, task, *, directory=None):
     name = task.removesuffix("_random") + ".md"
     manifest = json.loads((directory / "manifest.json").read_text())
     if name not in manifest["files"]:
-        raise ValueError(f"No recipe for {task!r}; set EMBODIEDRSI_USE_RECIPE=0 to omit recipes")
+        raise ValueError(f"No recipe for {task!r}; set EMBODIEDEVO_USE_RECIPE=0 to omit recipes")
     recipe = (directory / name).read_bytes()
     digest = hashlib.sha256(recipe).hexdigest()
     if digest != manifest["files"][name]:

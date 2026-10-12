@@ -1,4 +1,4 @@
-# EmbodiedRSI development boundaries
+# EmbodiedEvo development boundaries
 
 This repository contains the RoboDojo reproduction source. Read README.md and
 docs/PROTOCOL.md before changing execution or evaluation behavior.

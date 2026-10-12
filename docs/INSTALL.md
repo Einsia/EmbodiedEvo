@@ -1,6 +1,6 @@
 # Installation
 
-EmbodiedRSI uses three separate environments: host orchestration, the RoboDojo
+EmbodiedEvo uses three separate environments: host orchestration, the RoboDojo
 simulator, and a thin coding-agent container. Native XPolicyLab evaluation also
 uses a small policy-server environment. Run the commands below from the checkout
 root. No step needs access to the original private development repository.
@@ -21,6 +21,17 @@ performance.
 `requirements-host.txt` pins the host dependencies used for the export's CPU
 validation (Python 3.12.7 on Linux). Keep those pins out of the simulator's
 environment, which follows its own upstream dependency constraints.
+
+### Updating an existing installation
+
+The project package and CLI are now `embodiedevo`, environment variables use
+`EMBODIEDEVO_`, and the policy is `EmbodiedEvo`. Reinstall the editable package
+with the command above, update exported settings and launch scripts, and build
+the configured `embodiedevo-agent:latest` image before starting new runs.
+Existing run evidence and local runtime profiles are not migrated automatically.
+For a vendor snapshot created under a previous project name, provision an
+independent copy in a fresh checkout; the helper refuses to overwrite a snapshot
+without the current provenance marker.
 
 ## RoboDojo runtime and assets
 
@@ -43,9 +54,9 @@ copy. The original source installation is left in place. The helper retains the
 source snapshot's `packaging==23.0` compatibility pin; validate that pin if using
 a different native runtime revision.
 
-`vendor/robodojo/.embodiedrsi-provisioned.json` records the source commit,
+`vendor/robodojo/.embodiedevo-provisioned.json` records the source commit,
 submodules and hash of pre-existing source patches. The source patch is kept
-locally in `.embodiedrsi-source.patch`. These files and all vendor assets are
+locally in `.embodiedevo-source.patch`. These files and all vendor assets are
 ignored by Git. Treat the provisioned source as read-only during experiments.
 
 This distribution does not contain the simulator image or the exact historical
@@ -61,7 +72,7 @@ templates are provided in `configs/codex.openai.example.toml` and
 `configs/codex.custom.example.toml`.
 
 The launcher stages `config.toml` and `auth.json`; a key exported only in the
-host shell is not automatically passed to Docker. Keep `EMBODIEDRSI_CODEX_HOME`
+host shell is not automatically passed to Docker. Keep `EMBODIEDEVO_CODEX_HOME`
 set in the shell or job that launches the experiment. The task's `[agent]` model
 and reasoning effort override defaults in the Codex configuration.
 
@@ -71,9 +82,9 @@ Build directly from the repository root; the host needs Docker, not a Codex or
 Node.js installation:
 
 ```bash
-docker build -t embodiedrsi-agent:latest docker/agent
-docker run --rm --network none embodiedrsi-agent:latest codex --version
-docker run --rm --network none embodiedrsi-agent:latest \
+docker build -t embodiedevo-agent:latest docker/agent
+docker run --rm --network none embodiedevo-agent:latest codex --version
+docker run --rm --network none embodiedevo-agent:latest \
   python -c 'import numpy, PIL, imageio; print("image tools OK")'
 ```
 
@@ -83,7 +94,7 @@ runtime in a Python 3.11 image. The version is pinned; changing it is explicit:
 
 ```bash
 docker build --build-arg CODEX_VERSION=0.159.2 \
-  -t embodiedrsi-agent:latest docker/agent
+  -t embodiedevo-agent:latest docker/agent
 ```
 
 The npm installation method follows the [official Codex installation example](https://developers.openai.com/cookbook/examples/codex/build_iterative_repair_loops_with_codex).
@@ -100,19 +111,19 @@ resulting image ID:
 ```bash
 bash scripts/build_agent_image.sh
 # Optional custom image tag:
-bash scripts/build_agent_image.sh embodiedrsi-agent:custom
+bash scripts/build_agent_image.sh embodiedevo-agent:custom
 ```
 
 The default tag matches both task templates. A different existing tag does not
-satisfy `embodiedrsi-agent:latest`; build the configured tag before launching.
+satisfy `embodiedevo-agent:latest`; build the configured tag before launching.
 Docker images are local to each execution host. To reuse a verified build on a
 node without registry access:
 
 ```bash
-docker save -o /path/outside/git/embodiedrsi-agent.tar embodiedrsi-agent:latest
+docker save -o /path/outside/git/embodiedevo-agent.tar embodiedevo-agent:latest
 # On the execution host:
-docker load -i /path/outside/git/embodiedrsi-agent.tar
-docker image inspect embodiedrsi-agent:latest --format '{{.Id}}'
+docker load -i /path/outside/git/embodiedevo-agent.tar
+docker image inspect embodiedevo-agent:latest --format '{{.Id}}'
 ```
 
 Record the image ID and CLI version with the run evidence. A successful image
@@ -120,7 +131,7 @@ build checks the agent container; a live episode also needs the separately
 provisioned RoboDojo runtime and assets.
 
 At launch, the orchestrator stages provider configuration and authentication
-from `EMBODIEDRSI_CODEX_HOME`, or the operator's normal Codex home if unset.
+from `EMBODIEDEVO_CODEX_HOME`, or the operator's normal Codex home if unset.
 Host plugins, memories and project configuration are excluded. Set the explicit
 model and reasoning effort in `task.toml` before creating a run.
 
@@ -128,17 +139,17 @@ Optional site settings are environment variables:
 
 | Variable | Purpose |
 | --- | --- |
-| `EMBODIEDRSI_CODEX_HOME` | External CLI configuration and authentication source |
-| `EMBODIEDRSI_AGENT_HTTPS_PROXY` | Proxy used by the agent container |
-| `EMBODIEDRSI_BUILD_HTTP_PROXY` | Proxy used during image construction |
-| `EMBODIEDRSI_AGENT_BASE_IMAGE` | Python base image (`BASE_IMAGE` build argument) |
-| `EMBODIEDRSI_AGENT_NODE_IMAGE` | Node.js build image (`NODE_IMAGE`) |
-| `EMBODIEDRSI_CODEX_VERSION` | Explicit CLI version (`CODEX_VERSION`) |
-| `EMBODIEDRSI_AGENT_DEBIAN_MIRROR` | Debian mirror (`DEBIAN_MIRROR`) |
-| `EMBODIEDRSI_AGENT_PIP_INDEX_URL` | Python package index (`PIP_INDEX_URL`) |
-| `EMBODIEDRSI_AGENT_NPM_REGISTRY` | npm registry (`NPM_REGISTRY`) |
-| `EMBODIEDRSI_RUNTIME_DIR` | Host directory for short-lived sockets and locks |
-| `EMBODIEDRSI_USE_RECIPE` | `1` includes public task recipes; `0` omits them |
+| `EMBODIEDEVO_CODEX_HOME` | External CLI configuration and authentication source |
+| `EMBODIEDEVO_AGENT_HTTPS_PROXY` | Proxy used by the agent container |
+| `EMBODIEDEVO_BUILD_HTTP_PROXY` | Proxy used during image construction |
+| `EMBODIEDEVO_AGENT_BASE_IMAGE` | Python base image (`BASE_IMAGE` build argument) |
+| `EMBODIEDEVO_AGENT_NODE_IMAGE` | Node.js build image (`NODE_IMAGE`) |
+| `EMBODIEDEVO_CODEX_VERSION` | Explicit CLI version (`CODEX_VERSION`) |
+| `EMBODIEDEVO_AGENT_DEBIAN_MIRROR` | Debian mirror (`DEBIAN_MIRROR`) |
+| `EMBODIEDEVO_AGENT_PIP_INDEX_URL` | Python package index (`PIP_INDEX_URL`) |
+| `EMBODIEDEVO_AGENT_NPM_REGISTRY` | npm registry (`NPM_REGISTRY`) |
+| `EMBODIEDEVO_RUNTIME_DIR` | Host directory for short-lived sockets and locks |
+| `EMBODIEDEVO_USE_RECIPE` | `1` includes public task recipes; `0` omits them |
 
 Build variables are consumed by the wrapper. With `docker build`, pass the
 corresponding `--build-arg` directly. The agent's `filtered` network setting is
@@ -148,7 +159,7 @@ On hosts that require the shell's HTTP proxy for registry/package downloads:
 
 ```bash
 docker build --build-arg HTTP_PROXY --build-arg HTTPS_PROXY \
-  -t embodiedrsi-agent:latest docker/agent
+  -t embodiedevo-agent:latest docker/agent
 ```
 
 These predefined Docker build arguments take their values from the environment;

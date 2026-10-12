@@ -31,8 +31,8 @@ from integrations.robodojo_policy.bridge import BridgeTask, policy_observation, 
 from integrations.robodojo_policy.run import pin
 from orchestrator.config import config_dict, load_task
 from orchestrator.files import hashes
-from XPolicyLab.policy.EmbodiedRSI.model import Model
-from XPolicyLab.policy.EmbodiedRSI.deploy import AdapterFailure, eval_one_episode, playground_one_session
+from XPolicyLab.policy.EmbodiedEvo.model import Model
+from XPolicyLab.policy.EmbodiedEvo.deploy import AdapterFailure, eval_one_episode, playground_one_session
 from integrations.robodojo_policy.transport import forward
 
 
@@ -128,7 +128,7 @@ assert not info['ok']
                 self.end_flag = [False]
 
         with tempfile.TemporaryDirectory() as temporary, patch(
-            "XPolicyLab.policy.EmbodiedRSI.model.run_worker", playground_worker
+            "XPolicyLab.policy.EmbodiedEvo.model.run_worker", playground_worker
         ):
             model = Model({"run_dir": temporary, "phase": "playground"})
             loop = asyncio.new_event_loop()
@@ -177,8 +177,17 @@ assert not info['ok']
             state = {"phase": "frozen", "playground_valid": True,
                      "harness": hashes(source / "frozen_harness"), "definition": {"config": cfg}}
             (source / "protocol.json").write_text(json.dumps(state))
-            _, run, spec = pin(SimpleNamespace(source_run=source, run_dir=root / "new-run",
-                                              env_task="push_T", seed=1, episodes=1, gpu="0"))
+            repo = root / "repo"
+            (repo / "integrations").mkdir(parents=True)
+            (repo / "vendor/robodojo").mkdir(parents=True)
+            provision = {"commit": "test-source-commit"}
+            (repo / "vendor/robodojo/.embodiedevo-provisioned.json").write_text(
+                json.dumps(provision)
+            )
+            with patch("integrations.robodojo_policy.run.REPO", repo):
+                _, run, spec = pin(SimpleNamespace(source_run=source, run_dir=root / "new-run",
+                                                  env_task="push_T", seed=1, episodes=1, gpu="0"))
+            self.assertEqual(spec["vendor_provision"], provision)
             self.assertEqual(spec["task_config"]["agent"]["model"], "source-model")
             self.assertEqual(spec["task_config"]["test"]["budget"], 7)
             self.assertEqual(hashes(run / "frozen_harness"), state["harness"])
@@ -214,7 +223,7 @@ assert not info['ok']
 
     def test_official_websocket_closed_loop_and_new_episode_state(self):
         with tempfile.TemporaryDirectory() as temporary, patch(
-            "XPolicyLab.policy.EmbodiedRSI.model.run_worker", code_worker
+            "XPolicyLab.policy.EmbodiedEvo.model.run_worker", code_worker
         ):
             model = Model({"run_dir": temporary})
             loop = asyncio.new_event_loop()
@@ -239,7 +248,7 @@ assert not info['ok']
                 self.assertEqual(model.episode, 1)
                 # An agent may stop before the environment. The adapter must
                 # hold safely and tolerate the already closed worker pipe.
-                with patch("XPolicyLab.policy.EmbodiedRSI.model.run_worker", stopped_worker):
+                with patch("XPolicyLab.policy.EmbodiedEvo.model.run_worker", stopped_worker):
                     client.call("reset")
                     client.call("prepare_case", obs={"native_step_limit": 2})
                     obs = observation()

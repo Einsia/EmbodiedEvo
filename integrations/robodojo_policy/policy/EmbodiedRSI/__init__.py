@@ -1,1 +1,0 @@
-"""EmbodiedRSI XPolicyLab policy adapter."""

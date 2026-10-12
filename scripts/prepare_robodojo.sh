@@ -12,10 +12,14 @@ if [[ "$source_root" == "$target_root" || "$source_env" == "$target_env" ]]; the
     echo "Source and destination must be independent installations" >&2
     exit 1
 fi
+if [[ -e "$target_root" && ! -f "$target_root/.embodiedevo-provisioned.json" ]]; then
+    echo "Existing vendor snapshot has no EmbodiedEvo provenance marker; use a fresh checkout for provisioning." >&2
+    exit 1
+fi
 if [[ ! -x "$target_env/bin/python" ]]; then
     conda create --prefix "$target_env" --clone "$source_env" --offline -y
 fi
-if [[ ! -f "$target_root/.embodiedrsi-provisioned.json" ]]; then
+if [[ ! -f "$target_root/.embodiedevo-provisioned.json" ]]; then
     rsync -a --exclude='.git' --exclude='__pycache__' --exclude='*.pyc' \
       --exclude='eval_result' --exclude='smoke_results' --exclude='logs' \
       --exclude='XPolicyLab/policy' --exclude='outputs' \

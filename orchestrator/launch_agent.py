@@ -20,7 +20,7 @@ from pathlib import Path
 
 CONTAINER_WORKSPACE = Path("/workspace")
 CONTAINER_HOME = Path("/home/agent")
-AGENT_NETWORK = "embodiedrsi-agent"
+AGENT_NETWORK = "embodiedevo-agent"
 
 
 def agent_argv(
@@ -66,9 +66,9 @@ def docker_argv(
         raise ValueError("Docker CPU and memory limits must be positive")
     workspace = workspace.resolve()
     home = home.resolve()
-    name = container_name or f"embodiedrsi-agent-{os.getpid()}-{time.time_ns()}"
+    name = container_name or f"embodiedevo-agent-{os.getpid()}-{time.time_ns()}"
     proxy_args = []
-    proxy = (os.environ.get("EMBODIEDRSI_AGENT_HTTPS_PROXY")
+    proxy = (os.environ.get("EMBODIEDEVO_AGENT_HTTPS_PROXY")
              or os.environ.get("HTTPS_PROXY") or os.environ.get("HTTP_PROXY"))
     if network != "none" and proxy:
         proxy_args = [
@@ -91,7 +91,7 @@ def docker_argv(
         "--env",
         f"HOME={CONTAINER_HOME}",
         "--env",
-        f"EMBODIEDRSI_WORKSPACE={CONTAINER_WORKSPACE}",
+        f"EMBODIEDEVO_WORKSPACE={CONTAINER_WORKSPACE}",
         "--env",
         "LANG=C.UTF-8",
         "--env",
@@ -119,8 +119,8 @@ def docker_argv(
         f"{memory_mb}m",
         "--cpus",
         str(cpus),
-        *(["--cpuset-cpus", os.environ["EMBODIEDRSI_AGENT_CPUSET"]]
-          if os.environ.get("EMBODIEDRSI_AGENT_CPUSET") else []),
+        *(["--cpuset-cpus", os.environ["EMBODIEDEVO_AGENT_CPUSET"]]
+          if os.environ.get("EMBODIEDEVO_AGENT_CPUSET") else []),
         "--name",
         name,
         image,
@@ -197,7 +197,7 @@ def _toml_value(value):
 
 def agent_codex_home() -> Path:
     """Resolve the same provider source for agent staging and capacity proxies."""
-    override = os.environ.get("EMBODIEDRSI_CODEX_HOME")
+    override = os.environ.get("EMBODIEDEVO_CODEX_HOME")
     # Use the operator's normal Codex home unless a separate provider home is configured.
     source = Path(override).expanduser() if override else Path(
         os.environ.get("CODEX_HOME", Path.home() / ".codex")
@@ -234,7 +234,7 @@ def stage_home(root: Path) -> Path:
     config = source / "config.toml"
     if config.is_file():
         data = tomllib.loads(config.read_text(encoding="utf-8"))
-        policy = json.loads(os.environ.get("EMBODIEDRSI_AGENT_RECOVERY", "{}"))
+        policy = json.loads(os.environ.get("EMBODIEDEVO_AGENT_RECOVERY", "{}"))
         transport = policy.get("provider_overrides", {})
         allowed = {"supports_websockets", "request_max_retries", "stream_max_retries",
                    "stream_idle_timeout_ms"}

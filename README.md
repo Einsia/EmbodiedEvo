@@ -2,7 +2,7 @@
 
 **Building visual and physical intelligence through code.**
 
-EmbodiedRSI runs a coding agent in a persistent RoboDojo simulation session. During
+EmbodiedEvo runs a coding agent in a persistent RoboDojo simulation session. During
 Playground, the agent observes the scene, executes Python, and writes reusable
 Skills and Lessons. Test freezes that knowledge and starts a fresh agent,
 workspace and simulator for each new scene.
@@ -20,7 +20,7 @@ python3 -m venv .venv
 Build the thin coding-agent image directly from the included Dockerfile:
 
 ```bash
-docker build -t embodiedrsi-agent:latest docker/agent
+docker build -t embodiedevo-agent:latest docker/agent
 ```
 
 The Dockerfile installs pinned Codex CLI 0.159.2 and basic Python/image tools;
@@ -45,22 +45,22 @@ effort are explicit in `tasks/RoboDojo/task.toml`; configure them before a new r
 
 ```bash
 RUN_DIR="runs/$(date +%Y%m%d%H%M)_stack_bowls"
-.venv/bin/embodiedrsi explore --task RoboDojo --env-task stack_bowls \
+.venv/bin/embodiedevo explore --task RoboDojo --env-task stack_bowls \
   --run-dir "$RUN_DIR" --gpu 0
-.venv/bin/embodiedrsi test --task RoboDojo --env-task stack_bowls \
+.venv/bin/embodiedevo test --task RoboDojo --env-task stack_bowls \
   --run-dir "$RUN_DIR" --gpu 0
 ```
 
-`embodiedrsi run` performs both stages. Test-only baseline:
+`embodiedevo run` performs both stages. Test-only baseline:
 
 ```bash
-.venv/bin/embodiedrsi test --task tasks_baseline/RoboDojo --env-task stack_bowls \
+.venv/bin/embodiedevo test --task tasks_baseline/RoboDojo --env-task stack_bowls \
   --run-dir "runs/$(date +%Y%m%d%H%M)_stack_bowls_baseline" --gpu 0
 ```
 
 The baseline starts with its own instruction and no transferred Skills/Lessons.
 Public task recipes are enabled by default for both configurations, matching the
-source snapshot. Set `EMBODIEDRSI_USE_RECIPE=0` before preparing a new run to omit
+source snapshot. Set `EMBODIEDEVO_USE_RECIPE=0` before preparing a new run to omit
 that supplied knowledge. The choice and recipe source are recorded per run.
 See [the protocol](docs/PROTOCOL.md) and [running and evaluation](docs/RUNNING.md).
 
@@ -77,9 +77,8 @@ See [the protocol](docs/PROTOCOL.md) and [running and evaluation](docs/RUNNING.m
 | `tests/` | CPU tests; optional transport tests require a provisioned XPolicyLab |
 
 Cluster campaigns, private deployment profiles, historical recovery tools,
-dashboards and result archives are outside this source distribution. No remote
-is configured. [Source provenance](docs/SOURCE.md) describes the export and its
-validation limits.
+dashboards and result archives are outside this source distribution.
+[Source provenance](docs/SOURCE.md) describes the export and its validation limits.
 
 ## License and third-party material
 

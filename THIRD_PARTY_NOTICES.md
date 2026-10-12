@@ -10,7 +10,7 @@
 Recipe contents and the upstream Apache-2.0 [license](tasks/RoboDojo/recipe/LICENSE)
 are preserved verbatim. [The manifest](tasks/RoboDojo/recipe/manifest.json) records
 the upstream repository, revision and file checksums. These recipes are supplied
-task knowledge, not skills learned by EmbodiedRSI.
+task knowledge, not skills learned by EmbodiedEvo.
 
 ## External dependencies
 

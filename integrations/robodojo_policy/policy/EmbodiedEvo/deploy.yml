@@ -1,4 +1,4 @@
-policy_name: EmbodiedRSI
+policy_name: EmbodiedEvo
 protocol: ws
 host: localhost
 port: null

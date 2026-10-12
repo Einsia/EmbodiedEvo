@@ -64,7 +64,7 @@ def pin(args):
     with socket.socket() as probe:
         probe.bind(("127.0.0.1", 0))
         port = probe.getsockname()[1]
-    provision = json.loads((REPO / "vendor/robodojo/.embodiedrsi-provisioned.json").read_text())
+    provision = json.loads((REPO / "vendor/robodojo/.embodiedevo-provisioned.json").read_text())
     spec = {
         "run_dir": str(run), "source_run": str(source), "env_task": args.env_task,
         "seed": args.seed, "episodes": args.episodes, "gpu": args.gpu, "port": port,

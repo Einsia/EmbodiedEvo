@@ -278,7 +278,7 @@ class RoboDojoTests(unittest.TestCase):
         self.assertEqual(events[-1], ("clear", None))
 
     def setUp(self):
-        recipe_switch = patch.dict(os.environ, {"EMBODIEDRSI_USE_RECIPE": "0"})
+        recipe_switch = patch.dict(os.environ, {"EMBODIEDEVO_USE_RECIPE": "0"})
         recipe_switch.start()
         self.addCleanup(recipe_switch.stop)
         self.cwd = patch("simulators.robodojo.robodojo_cwd", nullcontext)
@@ -771,7 +771,7 @@ class RoboDojoTests(unittest.TestCase):
                 def command(*args, ok=True, workspace=workspace, address=address):
                     result = subprocess.run(
                         [sys.executable, str(workspace / "scripts/env.py"), *args],
-                        cwd=workspace, env={**os.environ, "EMBODIEDRSI_SOCKET": str(address)},
+                        cwd=workspace, env={**os.environ, "EMBODIEDEVO_SOCKET": str(address)},
                         capture_output=True, text=True, timeout=10,
                     )
                     self.assertEqual(result.returncode, 0 if ok else 1, result.stderr)

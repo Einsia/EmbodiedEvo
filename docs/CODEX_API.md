@@ -8,8 +8,8 @@ key; the coding agent does. Run the shell examples in Bash from the repository r
 Keep credentials outside the checkout and separate from your interactive Codex:
 
 ```bash
-export EMBODIEDRSI_CODEX_HOME="$HOME/.config/embodiedrsi/codex"
-install -d -m 700 "$EMBODIEDRSI_CODEX_HOME"
+export EMBODIEDEVO_CODEX_HOME="$HOME/.config/embodiedevo/codex"
+install -d -m 700 "$EMBODIEDEVO_CODEX_HOME"
 ```
 
 Select **one** template. The copy commands preserve an existing `config.toml`;
@@ -18,15 +18,15 @@ if you have configured this directory before, edit that file instead.
 For the official OpenAI API:
 
 ```bash
-cp -n configs/codex.openai.example.toml "$EMBODIEDRSI_CODEX_HOME/config.toml"
-chmod 600 "$EMBODIEDRSI_CODEX_HOME/config.toml"
+cp -n configs/codex.openai.example.toml "$EMBODIEDEVO_CODEX_HOME/config.toml"
+chmod 600 "$EMBODIEDEVO_CODEX_HOME/config.toml"
 ```
 
 For a compatible gateway:
 
 ```bash
-cp -n configs/codex.custom.example.toml "$EMBODIEDRSI_CODEX_HOME/config.toml"
-chmod 600 "$EMBODIEDRSI_CODEX_HOME/config.toml"
+cp -n configs/codex.custom.example.toml "$EMBODIEDEVO_CODEX_HOME/config.toml"
+chmod 600 "$EMBODIEDEVO_CODEX_HOME/config.toml"
 ```
 
 Edit the gateway template's `base_url` to the endpoint supplied by your provider,
@@ -49,13 +49,13 @@ Use the key for the selected endpoint. Enter it at the hidden prompt, with shell
 tracing (`set -x`) disabled:
 
 ```bash
-read -r -s -p "API key: " embodiedrsi_api_key
+read -r -s -p "API key: " embodiedevo_api_key
 printf '\n'
-printf '%s' "$embodiedrsi_api_key" | \
-  CODEX_HOME="$EMBODIEDRSI_CODEX_HOME" codex login --with-api-key
-unset embodiedrsi_api_key
-chmod 600 "$EMBODIEDRSI_CODEX_HOME/auth.json"
-CODEX_HOME="$EMBODIEDRSI_CODEX_HOME" codex login status
+printf '%s' "$embodiedevo_api_key" | \
+  CODEX_HOME="$EMBODIEDEVO_CODEX_HOME" codex login --with-api-key
+unset embodiedevo_api_key
+chmod 600 "$EMBODIEDEVO_CODEX_HOME/auth.json"
+CODEX_HOME="$EMBODIEDEVO_CODEX_HOME" codex login status
 ```
 
 The templates request file-based credential storage so the login cache is
@@ -71,7 +71,7 @@ such as `OPENAI_API_KEY` or a custom `env_key`. Exporting a key on the host alon
 therefore does not configure the container. Use the file-based setup above.
 
 An existing working API-key home can be selected by setting
-`EMBODIEDRSI_CODEX_HOME` to that directory instead. It must contain both files;
+`EMBODIEDEVO_CODEX_HOME` to that directory instead. It must contain both files;
 OS-keyring-only credentials cannot be copied by the launcher. Configuration in
 a project `.codex/` directory or a separate named Codex profile is not staged.
 
@@ -104,7 +104,7 @@ import tempfile
 from pathlib import Path
 from orchestrator.launch_agent import stage_home
 
-with tempfile.TemporaryDirectory(prefix="embodiedrsi-auth-check-") as directory:
+with tempfile.TemporaryDirectory(prefix="embodiedevo-auth-check-") as directory:
     staged = stage_home(Path(directory) / "agent-home") / ".codex"
     auth = json.loads((staged / "auth.json").read_text())
     key = auth.get("OPENAI_API_KEY")
@@ -120,19 +120,19 @@ This optional command sends a small real model request. Set its model and effort
 to the same values as your task; it uses API quota but needs no GPU:
 
 ```bash
-embodiedrsi_probe_dir="$(mktemp -d)"
-CODEX_HOME="$EMBODIEDRSI_CODEX_HOME" codex exec \
+embodiedevo_probe_dir="$(mktemp -d)"
+CODEX_HOME="$EMBODIEDEVO_CODEX_HOME" codex exec \
   --skip-git-repo-check --sandbox read-only --ephemeral \
-  --cd "$embodiedrsi_probe_dir" \
+  --cd "$embodiedevo_probe_dir" \
   --model gpt-6-astra -c 'model_reasoning_effort="xhigh"' \
   'Reply exactly OK. Do not use tools.'
-rmdir "$embodiedrsi_probe_dir"
+rmdir "$embodiedevo_probe_dir"
 ```
 
 A successful reply checks host-side API access. The agent container must also be
 able to reach the endpoint. In a container, `localhost` refers to the container
 itself; use a reachable gateway address or configure
-`EMBODIEDRSI_AGENT_HTTPS_PROXY` for your network. Next build the
+`EMBODIEDEVO_AGENT_HTTPS_PROXY` for your network. Next build the
 [thin agent image](INSTALL.md#thin-agent-container) and run the session diagnostic.
 
 | Symptom | Check |

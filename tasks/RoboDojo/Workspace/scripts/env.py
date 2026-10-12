@@ -32,9 +32,9 @@ def send(stream, value):
 
 
 def request(payload, *, socket_path=None):
-    address = socket_path or os.environ.get("EMBODIEDRSI_SOCKET")
+    address = socket_path or os.environ.get("EMBODIEDEVO_SOCKET")
     if not address:
-        raise RuntimeError("EMBODIEDRSI_SOCKET is not set; run inside an initialized workspace")
+        raise RuntimeError("EMBODIEDEVO_SOCKET is not set; run inside an initialized workspace")
     # Never retry a request: a broken connection does not imply rollback.
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as connection:
         connection.connect(address)
@@ -70,7 +70,7 @@ def main(argv=None):
     try:
         if args.command == "exec":
             workspace = os.environ.get(
-                "EMBODIEDRSI_WORKSPACE", str(Path(__file__).resolve().parents[1])
+                "EMBODIEDEVO_WORKSPACE", str(Path(__file__).resolve().parents[1])
             )
             payload["files"] = source_snapshot(workspace, args.file, args.include)
         result = request(payload)

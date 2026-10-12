@@ -45,7 +45,7 @@ def main():
         ).strip()
 
     patch_text = git("diff", "--", "env", "src", "task", "utils")
-    (target / ".embodiedrsi-source.patch").write_text(patch_text + "\n")
+    (target / ".embodiedevo-source.patch").write_text(patch_text + "\n")
     manifest = {
         "source_checkout": str(args.source_root.resolve()),
         "source_environment": str(args.source_env.resolve()),
@@ -56,7 +56,7 @@ def main():
         "generated_asset_paths": "utils/update_embodiment_config_path.py",
         "assets": "Copied from supplied installation; no symlinks to another checkout",
     }
-    (target / ".embodiedrsi-provisioned.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (target / ".embodiedevo-provisioned.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(json.dumps(manifest, indent=2))
 
 

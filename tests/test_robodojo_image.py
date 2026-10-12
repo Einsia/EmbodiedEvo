@@ -34,7 +34,7 @@ class ImageRuntimeTests(unittest.TestCase):
             patch.dict(os.environ, {"CUDA_VISIBLE_DEVICES": gpu}),
         ):
             return robodojo_image.docker_command(
-                self.args, self.profile, self.root / "bridge", "embodiedrsi-sim-test"
+                self.args, self.profile, self.root / "bridge", "embodiedevo-sim-test"
             )
 
     def test_image_keeps_native_protocol_and_repository_source(self):
@@ -48,7 +48,7 @@ class ImageRuntimeTests(unittest.TestCase):
         shell = command[-1]
         self.assertIn("-m orchestrator.session", shell)
         self.assertIn("--phase playground --seed 0 --budget 100", shell)
-        self.assertIn("exec 3>/run/embodiedrsi/events", shell)
+        self.assertIn("exec 3>/run/embodiedevo/events", shell)
         self.assertIn("--ready-fd 3", shell)
         self.assertNotIn("--ready-fd 12", shell)
         self.assertNotIn("/var/run/docker.sock", " ".join(command))
@@ -61,7 +61,7 @@ class ImageRuntimeTests(unittest.TestCase):
             self.command()
 
     def test_preserves_slurm_cpu_allocation_in_docker(self):
-        with patch.dict(os.environ, {'EMBODIEDRSI_SIMULATOR_CPUSET': '0-3,128-131'}):
+        with patch.dict(os.environ, {'EMBODIEDEVO_SIMULATOR_CPUSET': '0-3,128-131'}):
             command = self.command()
         self.assertEqual(command[command.index('--cpuset-cpus') + 1], '0-3,128-131')
         self.assertEqual(command[command.index('--gpus') + 1], 'device=4')
@@ -70,8 +70,8 @@ class ImageRuntimeTests(unittest.TestCase):
         self.profile.update(kit_usd_threads=8, video_threads=2, renderer_barrier=True)
         command = self.command()
         self.assertIn("PXR_WORK_THREAD_LIMIT=8", command)
-        self.assertIn("EMBODIEDRSI_ROBODOJO_VIDEO_THREADS=2", command)
-        self.assertIn("EMBODIEDRSI_ROBODOJO_RENDERER_BARRIER=1", command)
+        self.assertIn("EMBODIEDEVO_ROBODOJO_VIDEO_THREADS=2", command)
+        self.assertIn("EMBODIEDEVO_ROBODOJO_RENDERER_BARRIER=1", command)
         self.assertTrue(any("carb.tasking.plugin/threadCount=8" in p for p in command))
 
     def test_container_gate_precedes_all_native_imports(self):

@@ -25,7 +25,7 @@ def main():
     parser.add_argument("--probe", action="store_true")
     parser.add_argument("--per-gpu", type=int, default=1)
     parser.add_argument("--episode-timeout", type=int, default=28800)
-    parser.add_argument("--agent-image", default="embodiedrsi-agent:latest")
+    parser.add_argument("--agent-image", default="embodiedevo-agent:latest")
     parser.add_argument("--material-mirror", type=Path)
     args = parser.parse_args()
     if not os.environ.get("SLURM_JOB_ID"):
@@ -43,7 +43,7 @@ def main():
               "completed": [], "errors": [], "status": "running"}
     status["runtime_profile"] = {"runtime": "apptainer", "sif": str(args.sif),
                                  "kit_threads": 8, "video_threads": 2,
-                                 "reset_repairs": "existing EmbodiedRSI native reset helpers"}
+                                 "reset_repairs": "existing EmbodiedEvo native reset helpers"}
     status["source_hashes"] = hashes(REPO / "integrations/robodojo_policy")
     write_json(args.run_dir / "status.json", status)
 

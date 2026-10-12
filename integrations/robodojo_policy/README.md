@@ -1,8 +1,8 @@
-# EmbodiedRSI policy for RoboDojo
+# EmbodiedEvo policy for RoboDojo
 
 This adapter connects a persistent Python coding agent to the native RoboDojo
-evaluator through XPolicyLab WebSockets. `policy/EmbodiedRSI/model.py` implements
-the policy interface, and `deploy.yml` registers the `EmbodiedRSI` policy name.
+evaluator through XPolicyLab WebSockets. `policy/EmbodiedEvo/model.py` implements
+the policy interface, and `deploy.yml` registers the `EmbodiedEvo` policy name.
 The native client owns physics, action limits, success checks and official
 result files. This is local evaluation support, not an organizer-verified submission.
 
@@ -37,10 +37,10 @@ Copy `configs/runtime.example.json` to a local ignored profile, replace all
 placeholder paths and the full image ID, and set:
 
 ```bash
-export EMBODIEDRSI_ROBODOJO_RUNTIME_PROFILE="$PWD/configs/runtime.local.json"
+export EMBODIEDEVO_ROBODOJO_RUNTIME_PROFILE="$PWD/configs/runtime.local.json"
 ```
 
-Then the normal `embodiedrsi explore`, `test` and `run` commands use the native
+Then the normal `embodiedevo explore`, `test` and `run` commands use the native
 XPolicyLab executor when the profile contains `sif`. Launch inside a Slurm GPU
 allocation; pass a physical GPU index present in `SLURM_JOB_GPUS`. The profile's
 `python`, `source_root` and `kit_ext_cache` must match the paths inside your image.

@@ -1,7 +1,7 @@
 # Primitive-only baseline; concrete native task selected at launch.
 [task]
 protocol = "workspace-session-v1"
-name = "embodiedrsi/robodojo-baseline"
+name = "embodiedevo/robodojo-baseline"
 baseline = true
 description = "Solve the official task directly in Test using only native primitives and current-scene feedback."
 
@@ -22,7 +22,7 @@ model = "gpt-6-astra"
 reasoning_effort = "xhigh"
 timeout_sec = 0 # Test session limits are configured below.
 isolation = "docker"
-image = "embodiedrsi-agent:latest"
+image = "embodiedevo-agent:latest"
 network = "filtered"
 cpus = 4
 memory_mb = 8192

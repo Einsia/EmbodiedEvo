@@ -1,1 +1,1 @@
-"""Frozen EmbodiedRSI agents served through the official XPolicyLab interface."""
+"""Frozen EmbodiedEvo agents served through the official XPolicyLab interface."""

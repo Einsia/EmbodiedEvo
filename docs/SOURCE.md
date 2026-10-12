@@ -3,13 +3,18 @@
 Prepared on 2026-10-06 from the local development working tree. The export includes
 selected uncommitted implementation changes; it is not an archive of `HEAD` alone.
 [SOURCE_MANIFEST.json](../SOURCE_MANIFEST.json) records the base commit, original
-file hashes and hashes of the prepared files. It contains no private remote URL.
+file hashes and hashes of the current files. The EmbodiedEvo naming update on
+2026-10-13 refreshed current paths and hashes (`path` / `sha256`); original
+source paths, hashes and the base commit remain unchanged. `prepared_on` records
+the export date and `updated_on` records the latest manifest refresh.
+The manifest contains no private remote URL.
 The original file paths in that manifest retain historical policy names for
-traceability; runtime and package names use EmbodiedRSI.
+traceability; runtime and package names use EmbodiedEvo.
 
-The exported source is an independent copy. It has its own Git directory, no
-configured remote, no inherited commit history, and no links or hardlinks to the
-development checkout. All preparation edits were made in the new directory.
+The exported source was prepared as an independent copy with its own Git
+directory, no configured remote at export, no inherited commit history, and no
+links or hardlinks to the development checkout. All preparation edits were made
+in the new directory.
 
 ## Included
 
@@ -32,7 +37,7 @@ No frozen learned harnesses or reported-score artifacts are included.
 ## Preparation changes
 
 The package, CLI, policy name, environment variables, container names, network
-and socket names use `embodiedrsi` / `EMBODIEDRSI` / `EmbodiedRSI`. The scientific
+and socket names use `embodiedevo` / `EMBODIEDEVO` / `EmbodiedEvo`. The scientific
 protocol identifier remains `workspace-session-v1`. Only RoboDojo is registered.
 Task goals, budgets, primitive manuals and recipe contents are preserved.
 

@@ -159,21 +159,21 @@ class SharedExecutionTests(unittest.TestCase):
             self.assertIs(received_app, app)
             self.assertEqual(kwargs, {"resume_state": state})
             return "native environment"
-        with patch.dict(os.environ, {"EMBODIEDRSI_ROBODOJO_RENDERER_BARRIER": "1"}), \
+        with patch.dict(os.environ, {"EMBODIEDEVO_ROBODOJO_RENDERER_BARRIER": "1"}), \
                 patch("simulators.robodojo_startup.wait_for_renderer", side_effect=events.append):
             self.assertEqual(bootstrap.create_native_env(factory, config, app, resume_state=state),
                              "native environment")
 
     def test_failed_renderer_prevents_native_environment_construction(self):
         factory = Mock()
-        with patch.dict(os.environ, {"EMBODIEDRSI_ROBODOJO_RENDERER_BARRIER": "1"}), \
+        with patch.dict(os.environ, {"EMBODIEDEVO_ROBODOJO_RENDERER_BARRIER": "1"}), \
                 patch("simulators.robodojo_startup.wait_for_renderer", side_effect=TimeoutError), \
                 self.assertRaises(TimeoutError):
             bootstrap.create_native_env(factory, object(), object())
         factory.assert_not_called()
 
     def setUp(self):
-        recipe_switch = patch.dict(os.environ, {"EMBODIEDRSI_USE_RECIPE": "0"})
+        recipe_switch = patch.dict(os.environ, {"EMBODIEDEVO_USE_RECIPE": "0"})
         recipe_switch.start()
         self.addCleanup(recipe_switch.stop)
         temporary = tempfile.TemporaryDirectory()
@@ -184,7 +184,7 @@ class SharedExecutionTests(unittest.TestCase):
         self.profile = self.root / "runtime.json"
         write_json(self.profile, {"sif": str(self.sif), "material_mirror": str(self.root)})
         self.environment = patch.dict(os.environ, {
-            "EMBODIEDRSI_ROBODOJO_RUNTIME_PROFILE": str(self.profile), "SLURM_JOB_ID": "123",
+            "EMBODIEDEVO_ROBODOJO_RUNTIME_PROFILE": str(self.profile), "SLURM_JOB_ID": "123",
             "SLURM_JOB_GPUS": "0",
         })
         self.environment.start()

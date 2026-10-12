@@ -1,4 +1,4 @@
-"""Launch the native EmbodiedRSI module with the image's offline material cache."""
+"""Launch the native EmbodiedEvo module with the image's offline material cache."""
 
 from __future__ import annotations
 
@@ -33,7 +33,7 @@ def main():
     # Match the image's established import order before launching Isaac.
     import gymnasium  # noqa: F401
 
-    if mirror := os.environ.get("EMBODIEDRSI_MDL_MIRROR"):
+    if mirror := os.environ.get("EMBODIEDEVO_MDL_MIRROR"):
         import isaaclab.app
 
         launcher = isaaclab.app.AppLauncher

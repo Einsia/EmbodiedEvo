@@ -1,7 +1,7 @@
 # Generic benchmark definition; concrete environment selected at launch.
 [task]
 protocol = "workspace-session-v1"
-name = "embodiedrsi/robodojo"
+name = "embodiedevo/robodojo"
 description = "Solve the official task obtained through get_instruction()."
 
 # Benchmark-specific agent-facing instruction and knowledge source.
@@ -21,7 +21,7 @@ model = "gpt-6-astra"
 reasoning_effort = "xhigh"
 timeout_sec = 0 # Unlimited Playground session; execution slots remain bounded.
 isolation = "docker"
-image = "embodiedrsi-agent:latest"
+image = "embodiedevo-agent:latest"
 network = "filtered"
 cpus = 4
 memory_mb = 8192

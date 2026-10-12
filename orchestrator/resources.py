@@ -60,14 +60,14 @@ def gpu_lease(gpu: str | None) -> Iterator[None]:
     """Optionally serialize simulators targeting one physical GPU.
 
     H100-class cards can host multiple simulator processes.  The default is
-    therefore concurrent execution; set ``EMBODIEDRSI_EXCLUSIVE_GPU=1`` only
+    therefore concurrent execution; set ``EMBODIEDEVO_EXCLUSIVE_GPU=1`` only
     when diagnosing a driver-specific native rendering failure.
     """
-    if os.environ.get("EMBODIEDRSI_EXCLUSIVE_GPU") != "1" or gpu is None or str(gpu).strip() == "":
+    if os.environ.get("EMBODIEDEVO_EXCLUSIVE_GPU") != "1" or gpu is None or str(gpu).strip() == "":
         yield
         return
     gpu_id = str(gpu).strip().replace("/", "_")
-    path = Path("/tmp") / f"embodiedrsi-simulator-gpu-{gpu_id}.lock"
+    path = Path("/tmp") / f"embodiedevo-simulator-gpu-{gpu_id}.lock"
     with path.open("w", encoding="utf-8") as fh:
         started = time.monotonic()
         fcntl.flock(fh.fileno(), fcntl.LOCK_EX)
@@ -95,7 +95,7 @@ class GpuSlots:
         if len(set(self.gpus)) != len(self.gpus) or per_gpu < 1:
             raise ValueError("GPU indices must be unique and per-GPU capacity positive")
         self.per_gpu = per_gpu
-        self.directory = Path(directory or f"/tmp/embodiedrsi-gpu-slots-{os.getuid()}")
+        self.directory = Path(directory or f"/tmp/embodiedevo-gpu-slots-{os.getuid()}")
         self.directory.mkdir(mode=0o700, parents=True, exist_ok=True)
 
     def acquire(self, *, allowed=None):

@@ -26,7 +26,7 @@ class _NoPolicyServer:
 
     def call(self, **kwargs):
         if kwargs.get("func_name") != "reset":
-            raise RuntimeError("RoboDojo policy inference is owned by the EmbodiedRSI agent")
+            raise RuntimeError("RoboDojo policy inference is owned by the EmbodiedEvo agent")
 
     def close(self):
         pass
@@ -69,7 +69,7 @@ class RoboDojoTask(CodeTask):
         # Kit holds NFS log files open until shutdown; cleanup must not prevent
         # the application from closing when .nfs files temporarily remain.
         self._temporary = tempfile.TemporaryDirectory(
-            prefix="embodiedrsi-robodojo-", ignore_cleanup_errors=True
+            prefix="embodiedevo-robodojo-", ignore_cleanup_errors=True
         )
         self.app = self.native = None
         self._physx_monitor = None
@@ -107,10 +107,10 @@ class RoboDojoTask(CodeTask):
         AppLauncher.add_app_launcher_args(parser)
         args = parser.parse_args([])
         args.headless, args.enable_cameras, args.device = True, True, "cuda:0"
-        args.kit_args = os.environ.get("EMBODIEDRSI_ROBODOJO_KIT_ARGS", args.kit_args)
+        args.kit_args = os.environ.get("EMBODIEDEVO_ROBODOJO_KIT_ARGS", args.kit_args)
         add_zero_delay_kit_args(args)
         self.app = AppLauncher(args).app
-        if os.environ.get("EMBODIEDRSI_ROBODOJO_RENDERER_BARRIER") == "1":
+        if os.environ.get("EMBODIEDEVO_ROBODOJO_RENDERER_BARRIER") == "1":
             from simulators.robodojo_startup import wait_for_renderer
 
             self.renderer_startup_sec = wait_for_renderer(self.app)
@@ -119,7 +119,7 @@ class RoboDojoTask(CodeTask):
         from omegaconf import OmegaConf
         from utils.pipeline_utils import process_config, process_randomization
 
-        if video_threads := int(os.environ.get("EMBODIEDRSI_ROBODOJO_VIDEO_THREADS", "0")):
+        if video_threads := int(os.environ.get("EMBODIEDEVO_ROBODOJO_VIDEO_THREADS", "0")):
             import utils.save_file as video_module
             from simulators.robodojo_video import configure_video_threads
 
@@ -133,7 +133,7 @@ class RoboDojoTask(CodeTask):
             device_id=0,
             eval_batch=False,
             eval_num=1,
-            policy_name="EmbodiedRSI",
+            policy_name="EmbodiedEvo",
             seed=self.bank,
             additional_info="workspace-session-v1",
             physx_monitor_enabled=monitor_enabled,
@@ -141,7 +141,7 @@ class RoboDojoTask(CodeTask):
         cfg = OmegaConf.create(
             {
                 "eval_cfg": eval_cfg,
-                "deploy_cfg": {"policy_name": "EmbodiedRSI", "port": 1},
+                "deploy_cfg": {"policy_name": "EmbodiedEvo", "port": 1},
                 **{
                     name: load_yaml(str(base / name / (eval_cfg["config"][name] + ".yml")))
                     for name in ("sim", "scene", "camera", "robot")

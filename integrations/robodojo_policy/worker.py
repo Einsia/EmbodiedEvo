@@ -42,7 +42,7 @@ def run_worker(connection, specification, observation, step_limit, episode):
     stop_mirror = threading.Event()
     session = None
     phase = specification.get("phase", "test")
-    recovery = json.loads(os.environ.get("EMBODIEDRSI_AGENT_RECOVERY", "{}"))
+    recovery = json.loads(os.environ.get("EMBODIEDEVO_AGENT_RECOVERY", "{}"))
     recoveries = []
     recovery_due = None
     recovery_id = None
@@ -62,7 +62,7 @@ def run_worker(connection, specification, observation, step_limit, episode):
         session = Session(env, run, phase=phase, seed=0, budget=limits.budget,
                           seconds=specification.get("seconds"), execution_seconds=limits.submission_timeout_sec,
                           fps=cfg.feedback_fps)
-        with (tempfile.TemporaryDirectory(prefix="embodiedrsi-xpolicy-", ignore_cleanup_errors=True) as temporary,
+        with (tempfile.TemporaryDirectory(prefix="embodiedevo-xpolicy-", ignore_cleanup_errors=True) as temporary,
               contextlib.ExitStack() as logs):
             socket_dir = Path(temporary)
             socket_dir.chmod(0o755)

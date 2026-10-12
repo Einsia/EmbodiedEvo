@@ -19,7 +19,7 @@ def apptainer_command(argv, profile, bridge, sif):
     # Reuse the exact image environment, repository mounts and native invocation.
     docker = docker_command(argv, profile, bridge, 'unused')
     command = ['apptainer', 'exec', '--fakeroot', '--nvccli', '--writable-tmpfs',
-               '--containall', '--cleanenv', '--home', f'{bridge / "home"}:/run/embodiedrsi/home',
+               '--containall', '--cleanenv', '--home', f'{bridge / "home"}:/run/embodiedevo/home',
                '--no-mount', 'bind-paths,cwd',
                '--net', '--network', 'none', '--workdir', str(bridge / 'work')]
     index = 0
@@ -56,8 +56,8 @@ def main():
 
     signal.signal(signal.SIGTERM, terminate)
     signal.signal(signal.SIGINT, terminate)
-    with tempfile.TemporaryDirectory(prefix='embodiedrsi-sif-',
-            dir=os.environ.get('EMBODIEDRSI_SIMULATOR_TMPDIR')) as folder:
+    with tempfile.TemporaryDirectory(prefix='embodiedevo-sif-',
+            dir=os.environ.get('EMBODIEDEVO_SIMULATOR_TMPDIR')) as folder:
         bridge = Path(folder)
         (bridge / 'work').mkdir()
         (bridge / 'home').mkdir()
@@ -70,7 +70,7 @@ def main():
             command = apptainer_command(argv, profile, bridge, sif)
             env = dict(os.environ, NVIDIA_VISIBLE_DEVICES=state['physical_gpu'],
                        NVIDIA_DRIVER_CAPABILITIES='compute,utility,graphics,display,video')
-            if cpus := env.get('EMBODIEDRSI_SIMULATOR_CPUSET'):
+            if cpus := env.get('EMBODIEDEVO_SIMULATOR_CPUSET'):
                 os.sched_setaffinity(0, {int(c) for c in cpus.split(',')})
             process = subprocess.Popen(command, env=env, stdin=subprocess.DEVNULL,
                                        stderr=subprocess.PIPE)

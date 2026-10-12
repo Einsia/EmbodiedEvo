@@ -63,7 +63,7 @@ if status["phase"] == "test":
     p.write_text("restart = reset\\nrestart()\\n")
     result = call("exec", ok=False)
     assert "PermissionError" in result["stderr"]
-for name in (() if os.environ.get("EMBODIEDRSI_SMOKE_HOST_CLIENT") == "1" else (
+for name in (() if os.environ.get("EMBODIEDEVO_SMOKE_HOST_CLIENT") == "1" else (
     "instruction.md", "primitives/primitives.md", "scripts/env.py",
     "observations/000000/images.json",
 )):
@@ -125,9 +125,9 @@ def main(argv=None):
         bootstrap = (
             "import os\n"
             f"os.chdir({str(episode / 'workspace')!r})\n"
-            f"os.environ['EMBODIEDRSI_WORKSPACE'] = {str(episode / 'workspace')!r}\n"
-            f"os.environ['EMBODIEDRSI_SOCKET'] = {str(socket_dir / 'session.sock')!r}\n"
-            "os.environ['EMBODIEDRSI_SMOKE_HOST_CLIENT'] = '1'\n"
+            f"os.environ['EMBODIEDEVO_WORKSPACE'] = {str(episode / 'workspace')!r}\n"
+            f"os.environ['EMBODIEDEVO_SOCKET'] = {str(socket_dir / 'session.sock')!r}\n"
+            "os.environ['EMBODIEDEVO_SMOKE_HOST_CLIENT'] = '1'\n"
         )
         return None, [sys.executable, "-c", bootstrap + client]
 

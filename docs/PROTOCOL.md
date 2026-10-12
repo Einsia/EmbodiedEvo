@@ -1,6 +1,6 @@
 # Execution and evaluation protocol
 
-The protocol identifier remains `workspace-session-v1`. EmbodiedRSI is the project
+The protocol identifier remains `workspace-session-v1`. EmbodiedEvo is the project
 name; renaming does not change the experiment semantics.
 
 ## Persistent code sessions
@@ -39,7 +39,7 @@ plan and does not silently rerun completed or failed attempts.
 The Test-only baseline has its own instruction template and no Playground or
 transferred knowledge. Public recipes are supplied task information; their
 default inclusion is the same for both task templates. Set
-`EMBODIEDRSI_USE_RECIPE=0` before run creation for a recipe-free condition and record
+`EMBODIEDEVO_USE_RECIPE=0` before run creation for a recipe-free condition and record
 that condition when comparing results.
 
 ## Isolation and budgets

@@ -6,19 +6,19 @@ if [[ $# -gt 1 ]]; then
   echo "Usage: $0 [image-tag]" >&2
   exit 2
 fi
-image="${1:-embodiedrsi-agent:latest}"
+image="${1:-embodiedevo-agent:latest}"
 build_args=()
-if [[ -n "${EMBODIEDRSI_BUILD_HTTP_PROXY:-}" ]]; then
-  build_args+=(--build-arg "HTTP_PROXY=$EMBODIEDRSI_BUILD_HTTP_PROXY")
-  build_args+=(--build-arg "HTTPS_PROXY=$EMBODIEDRSI_BUILD_HTTP_PROXY")
+if [[ -n "${EMBODIEDEVO_BUILD_HTTP_PROXY:-}" ]]; then
+  build_args+=(--build-arg "HTTP_PROXY=$EMBODIEDEVO_BUILD_HTTP_PROXY")
+  build_args+=(--build-arg "HTTPS_PROXY=$EMBODIEDEVO_BUILD_HTTP_PROXY")
 fi
 for option in \
-  BASE_IMAGE:EMBODIEDRSI_AGENT_BASE_IMAGE \
-  NODE_IMAGE:EMBODIEDRSI_AGENT_NODE_IMAGE \
-  CODEX_VERSION:EMBODIEDRSI_CODEX_VERSION \
-  DEBIAN_MIRROR:EMBODIEDRSI_AGENT_DEBIAN_MIRROR \
-  PIP_INDEX_URL:EMBODIEDRSI_AGENT_PIP_INDEX_URL \
-  NPM_REGISTRY:EMBODIEDRSI_AGENT_NPM_REGISTRY; do
+  BASE_IMAGE:EMBODIEDEVO_AGENT_BASE_IMAGE \
+  NODE_IMAGE:EMBODIEDEVO_AGENT_NODE_IMAGE \
+  CODEX_VERSION:EMBODIEDEVO_CODEX_VERSION \
+  DEBIAN_MIRROR:EMBODIEDEVO_AGENT_DEBIAN_MIRROR \
+  PIP_INDEX_URL:EMBODIEDEVO_AGENT_PIP_INDEX_URL \
+  NPM_REGISTRY:EMBODIEDEVO_AGENT_NPM_REGISTRY; do
   variable="${option#*:}"
   if [[ -n "${!variable:-}" ]]; then
     build_args+=(--build-arg "${option%%:*}=${!variable}")

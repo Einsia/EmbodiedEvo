@@ -145,7 +145,7 @@ def agent_command(cfg, run, socket_dir, phase):
     launch_agent.require_image(cfg.agent.image)
     if cfg.agent.network != "none":
         launch_agent.ensure_network()
-    name = f"embodiedrsi-session-{os.getpid()}-{time.time_ns()}"
+    name = f"embodiedevo-session-{os.getpid()}-{time.time_ns()}"
     argv = launch_agent.docker_argv(
         run / "workspace",
         # Keep the CLI's cache/database HOME outside the run. Only the mirrored
@@ -174,9 +174,9 @@ def agent_command(cfg, run, socket_dir, phase):
     )
     mounts = [
         "--env",
-        "EMBODIEDRSI_SOCKET=/run/embodiedrsi/session.sock",
+        "EMBODIEDEVO_SOCKET=/run/embodiedevo/session.sock",
         "--mount",
-        f"type=bind,src={socket_dir},dst=/run/embodiedrsi,readonly",
+        f"type=bind,src={socket_dir},dst=/run/embodiedevo,readonly",
     ]
     fixed = ["instruction.md", "primitives", "scripts", "observations"]
     if phase == "test" and not cfg.baseline:
@@ -225,7 +225,7 @@ def run_episode(
     """Monitor processes and pipe events, never workspace semaphore files."""
     protocol_path = experiment / "protocol.json"
     protocol = json.loads(protocol_path.read_text()) if protocol_path.exists() else {}
-    profile_path = os.environ.get("EMBODIEDRSI_ROBODOJO_RUNTIME_PROFILE")
+    profile_path = os.environ.get("EMBODIEDEVO_ROBODOJO_RUNTIME_PROFILE")
     profile = (json.loads(Path(profile_path).read_text())
                if profile_path and cfg.simulator.backend == "robodojo" else {})
     if protocol.get("execution_backend") == "xpolicylab" and (
@@ -264,7 +264,7 @@ def run_episode(
     agent_started_wall = agent_started_mono = None
     agent_finished_wall = agent_finished_mono = None
     token_usage = {}
-    recovery_policy = json.loads(os.environ.get("EMBODIEDRSI_AGENT_RECOVERY", "{}"))
+    recovery_policy = json.loads(os.environ.get("EMBODIEDEVO_AGENT_RECOVERY", "{}"))
     recovery_events = []
     recovery_due = None
     recovery_id = None
@@ -289,7 +289,7 @@ def run_episode(
         write_json(runtime_path, runtime)
 
     save_runtime(status="starting", started_at=stage_started_wall)
-    with tempfile.TemporaryDirectory(prefix="embodiedrsi-session-") as temporary, gpu_lease(gpu):
+    with tempfile.TemporaryDirectory(prefix="embodiedevo-session-") as temporary, gpu_lease(gpu):
         socket_dir = Path(temporary)
         # Coverage workers may place temporary agent homes on the shared
         # filesystem so a full host /tmp cannot stop a campaign.  Docker's
@@ -333,7 +333,7 @@ def run_episode(
         ready = False
         action_deadline = None
         startup_deadline = time.monotonic() + float(
-            os.environ.get("EMBODIEDRSI_SIMULATOR_STARTUP_TIMEOUT", "1200"))
+            os.environ.get("EMBODIEDEVO_SIMULATOR_STARTUP_TIMEOUT", "1200"))
         agent_deadline = None
         command = [
             str(cfg.python),

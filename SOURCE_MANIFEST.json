@@ -1,6 +1,7 @@
 {
-  "schema": "embodiedrsi-source-export-v1",
+  "schema": "embodiedevo-source-export-v1",
   "prepared_on": "2026-10-06",
+  "updated_on": "2026-10-13",
   "source_commit": "2d8d905935d76bd7290ae05321d61992df6d53ef",
   "source_is_working_tree": true,
   "copied": [
@@ -8,37 +9,37 @@
       "source": "docker/agent/Dockerfile",
       "path": "docker/agent/Dockerfile",
       "source_sha256": "9bda405da07014938a7cc5c7c1b86ec5eb3ca315d148a76522fe3993cc2a494e",
-      "sha256": "9bda405da07014938a7cc5c7c1b86ec5eb3ca315d148a76522fe3993cc2a494e"
+      "sha256": "5e1cbb7407206500b0d8c58c6a9db91fa804e473c25cc360de49c0aa3a131ccf"
     },
     {
       "source": "environments/__init__.py",
       "path": "environments/__init__.py",
       "source_sha256": "bb79769d3cc32af1faaefebbff76208413ec766359b771a837f14c8a44395c58",
-      "sha256": "ce619f67e97de8dbd613b318ab15c9580e3e711a2b1f9b74fe2162fcbde9b72c"
+      "sha256": "fafb1cfbb6943d4d44a469ff161c1b8d70bd181d65c5bce0e6f70dae4cff1441"
     },
     {
       "source": "environments/base.py",
       "path": "environments/base.py",
       "source_sha256": "d9ad78a81bbaaef1c0a47c0c6ca9e8e56ce8cd5a93faba49c2aff545c63c7193",
-      "sha256": "b9f8b9537b9b6cc30488f438a5d71bfb3a2f9599ab12dc39024c7d9b10476557"
+      "sha256": "8f6bfc08f1d0bf9d3ba40cac5d620bb1d444dc76593561a450202bda7edd1c2a"
     },
     {
       "source": "integrations/__init__.py",
       "path": "integrations/__init__.py",
       "source_sha256": "bf2428ee212f705018364b52b98352fbfcbe90ddd1b064001c5ee806b2d7b98c",
-      "sha256": "4559226a32962f69ec62863464135b0d5c4cd8384d964bbbda486f04e39ee62d"
+      "sha256": "4c323f2cd60f5b40d3b9878ca96bd481cf3027b7b6b8db21827cfa14d2163453"
     },
     {
       "source": "integrations/robodojo_policy/__init__.py",
       "path": "integrations/robodojo_policy/__init__.py",
       "source_sha256": "205caec613a2023d617d9b9dab43b34ae5dcf8a3849fd3cba570ef676fd7c52e",
-      "sha256": "d48e70ffd17a9137df612ebf50595670a85fbefb3110b86d6a506054e6360083"
+      "sha256": "fff23475b5ee4ac22fff96d9af59a3126d486974113b37a4c56a2634af919162"
     },
     {
       "source": "integrations/robodojo_policy/bootstrap.py",
       "path": "integrations/robodojo_policy/bootstrap.py",
       "source_sha256": "814d20c6da322090ccbc8508312f682ab3537ea07628931910404461076a480a",
-      "sha256": "33ec5e285204d48ac7b0dce36e43e68f9f6a2336fb29c067b9ff701cad6a5b22"
+      "sha256": "8bfc7050e41a1be8cf188b1ba4681e9925ce3556c72d33766fd7b5be45d91f08"
     },
     {
       "source": "integrations/robodojo_policy/bridge.py",
@@ -50,35 +51,35 @@
       "source": "integrations/robodojo_policy/debug.py",
       "path": "integrations/robodojo_policy/debug.py",
       "source_sha256": "6f87d8318ff9b0abb9fdba92591bf6db442961b64470e02aa61c8c87438d5699",
-      "sha256": "43b024cf7340bb0f6c15598b62472df7dd3b9c954c19252738edd15860628257"
+      "sha256": "399a2eb3eb3ab2589967a07cbae85c2216b76d1b82d37a2dc7f2dc32f9d33bdd"
     },
     {
       "source": "integrations/robodojo_policy/execution.py",
       "path": "integrations/robodojo_policy/execution.py",
       "source_sha256": "b588d5fa9ac0ba751c8fcbc8784adf0ddb10b5a9b88020162d1b0d06005aecc5",
-      "sha256": "f5681661a653c33caa81ba0163a3ea5f1856f3ccdee4ae510cb462b90a3077f0"
+      "sha256": "196a33e00b6ce2a2c99b6b41fffc97e399297a56d58ffad3d1696812024cb9f1"
     },
     {
       "source": "integrations/robodojo_policy/policy/EAHarness/__init__.py",
-      "path": "integrations/robodojo_policy/policy/EmbodiedRSI/__init__.py",
+      "path": "integrations/robodojo_policy/policy/EmbodiedEvo/__init__.py",
       "source_sha256": "cdd3df16c2ef967770cc1fa65f6f18538129d65e6d08db8831ee042d52b1eff8",
-      "sha256": "e587955ce39364d5ef1cab13eecb241e9d474e6def9d513bd1732b47816e19c8"
+      "sha256": "d95cb240a327488cc428efcb81736bae73e61302257fd71ebce87b60a32a0070"
     },
     {
       "source": "integrations/robodojo_policy/policy/EAHarness/deploy.py",
-      "path": "integrations/robodojo_policy/policy/EmbodiedRSI/deploy.py",
+      "path": "integrations/robodojo_policy/policy/EmbodiedEvo/deploy.py",
       "source_sha256": "37b1d4ea17cd0fcb6337ea23cec5f2f986956ad2dcaa7d63a659343d8f6a213a",
-      "sha256": "e79de6283328e5409826b4e2603ff713b102f1fdbaad27befa0df7e958a00deb"
+      "sha256": "cbe2b149a7b91175e5e366370e10ae1ffb440f70790b328505a15e20f2ebd992"
     },
     {
       "source": "integrations/robodojo_policy/policy/EAHarness/deploy.yml",
-      "path": "integrations/robodojo_policy/policy/EmbodiedRSI/deploy.yml",
+      "path": "integrations/robodojo_policy/policy/EmbodiedEvo/deploy.yml",
       "source_sha256": "15e0b2a7d32ae54f3abd802a458f2da1e495d63d192edcd313280b47d3c9056c",
-      "sha256": "71b410496172fcbc6c6e89e0513f0d53ff3d4038227cc58b79cbb301f49ab13c"
+      "sha256": "cfd88cc9445d9e60eece8c40796de16636c327f2592eac690ebf3c3d9d1da364"
     },
     {
       "source": "integrations/robodojo_policy/policy/EAHarness/model.py",
-      "path": "integrations/robodojo_policy/policy/EmbodiedRSI/model.py",
+      "path": "integrations/robodojo_policy/policy/EmbodiedEvo/model.py",
       "source_sha256": "40a948a4524da8242049c2f91d4877bc7baff5c67668130ce38406b574158f32",
       "sha256": "40a948a4524da8242049c2f91d4877bc7baff5c67668130ce38406b574158f32"
     },
@@ -92,7 +93,7 @@
       "source": "integrations/robodojo_policy/run.py",
       "path": "integrations/robodojo_policy/run.py",
       "source_sha256": "fbe092a0e70ea1de44dc2bbd0f9d97a77687fb9ae4b7bbca70a60d80754a40e2",
-      "sha256": "1d1c345d108d3a9d24e0b26b0184d6d19b9113793e56d70fa5988d9d0de6e0ac"
+      "sha256": "5e23f68f8693cff95a616d261bc434495cf26d5beb99432cf8011e88e122331f"
     },
     {
       "source": "integrations/robodojo_policy/transport.py",
@@ -104,7 +105,7 @@
       "source": "integrations/robodojo_policy/worker.py",
       "path": "integrations/robodojo_policy/worker.py",
       "source_sha256": "718b3c0fb5c8335af264590bc7b6624fdc090fc1cbbe07ed85a62820dc414422",
-      "sha256": "7eefd99e10603802de5241d16097727ea7c0514091c660fe20cb152a788f7550"
+      "sha256": "c0427a1a6222fa2d0be1c664a8bc15b1129d8cc397c7ed5e2304c8c46001d1bf"
     },
     {
       "source": "orchestrator/__init__.py",
@@ -116,7 +117,7 @@
       "source": "orchestrator/__main__.py",
       "path": "orchestrator/__main__.py",
       "source_sha256": "a148204a6bc46879db48eb0114d09e98b8769817ad270a29fd959daf935e269e",
-      "sha256": "ec3d9db5b4829918a25f13cdef7b74ccdc1ef5a864cb73fa3504840e27795014"
+      "sha256": "12f8bbec810c5e1d963118b9e6b69428da1b78e368c40f99e614dd93c67d85be"
     },
     {
       "source": "orchestrator/agent_recovery.py",
@@ -128,7 +129,7 @@
       "source": "orchestrator/config.py",
       "path": "orchestrator/config.py",
       "source_sha256": "27e0f3b734fa631d8be6b1849345dd51001da3317757d3c094fb5133ef463911",
-      "sha256": "2c6aad30ebdb013f241a09857cc39fa813835d28073d5f07473a5a3ee8109668"
+      "sha256": "64dd4f237fd58a96e1240708c806ac63c378f4842d1f47f7c0f708445eac302a"
     },
     {
       "source": "orchestrator/files.py",
@@ -158,7 +159,7 @@
       "source": "orchestrator/launch_agent.py",
       "path": "orchestrator/launch_agent.py",
       "source_sha256": "c48f8a9b858df0c1c202addc3ba2bfa5ced4c62738901d195219dac38a0dcaab",
-      "sha256": "edba69e703dfbdd44278df5f4ab3e5ce851d6be872a7a64e92dbeceba31988e5"
+      "sha256": "5538b72f34b9d61d6f4fc2b63d3ad47d5fd74693613cdd9321f234229f244f68"
     },
     {
       "source": "orchestrator/program_records.py",
@@ -170,7 +171,7 @@
       "source": "orchestrator/recipes.py",
       "path": "orchestrator/recipes.py",
       "source_sha256": "7c1333347b7f380d6beeebb0e764a0378510e6009667a7da39817da51ce9bbef",
-      "sha256": "e689ca112d5e7772c97efbc81d733bea6b320e63e44c178db231077142ddaadc"
+      "sha256": "5e4d705233c61d69635f417009f18793c05a418e93eba2177ada72d4b11cfe11"
     },
     {
       "source": "orchestrator/replay.py",
@@ -182,19 +183,19 @@
       "source": "orchestrator/resources.py",
       "path": "orchestrator/resources.py",
       "source_sha256": "2ae1951696a6f723e36b60c484cdfd539acfd17d2cb59783742a4509097ed144",
-      "sha256": "962d93e9365cf7fc18d8dca670cdf06ebcd7ec3756d2698db8095fc899c5c0ec"
+      "sha256": "a12b5ae2ba7c117a33f246fbeb661dc1e62c5a1ce927db10abd730710acbe236"
     },
     {
       "source": "orchestrator/robodojo_apptainer.py",
       "path": "orchestrator/robodojo_apptainer.py",
       "source_sha256": "91dabad5e8c27d3d7a819d5519d2d97255bfd20d9180a7b48599762f0c1b20b4",
-      "sha256": "77d6a46d122cbb6e602b68aac8339270f3c5adfede4cdcfcbb8fbb76bb6dfab9"
+      "sha256": "68dccca9cbb2ddb6b4e3963fa17a55a44e63caeded3505f151d9825ec49c91d3"
     },
     {
       "source": "orchestrator/robodojo_image.py",
       "path": "orchestrator/robodojo_image.py",
       "source_sha256": "3fb4dcbeb7984932ca7791d7818675c9f8a521a15b771d6f3c61b40770118dd6",
-      "sha256": "13f413baa40ca0b231592a5676ef2a271852db07180c54ead3e72cae2d3b5084"
+      "sha256": "4441ac8f2e6ca6c9acc2a9feff68c3177a7ebb4049d03c48cfb19f1872706664"
     },
     {
       "source": "orchestrator/scoring.py",
@@ -218,19 +219,19 @@
       "source": "orchestrator/session_client.py",
       "path": "orchestrator/session_client.py",
       "source_sha256": "4909b392cd1513a970a34946b1d3e56787a39324fa2a40d331950485ccac24ca",
-      "sha256": "0a7c495bca028f3970319db362f3703ce7ee30d6915c4e0e1c00cc258fde042c"
+      "sha256": "f01b6302caf42b5a9733e0fa5539e69405c1b226994ee861234a98f7f2dfe946"
     },
     {
       "source": "orchestrator/session_runner.py",
       "path": "orchestrator/session_runner.py",
       "source_sha256": "b868de2bb75713e468b5069a24843f06e0e0164d08d996973670aeef39fc358d",
-      "sha256": "9d65c8fa80fed6a717d157036eb5d1ad820f480d06317953b79d7ab12be0f300"
+      "sha256": "4ec91bfc4b1b55d32d68a4d985fabc397ba56224b74e6d1889922e14477170b4"
     },
     {
       "source": "pyproject.toml",
       "path": "pyproject.toml",
       "source_sha256": "9d1413f03832f0bc1fa8f6ceda37bfb73654aef1a7471d8ea02a9a79aa24f001",
-      "sha256": "e2bc4d478ce98003956c25f1bb103cf314a512211c30950cd0d63c388c1bf69b"
+      "sha256": "448cc4d53255a33426c9b85cbd0373a74f8392d9f2b32372660f87a212991869"
     },
     {
       "source": "scripts/__init__.py",
@@ -242,19 +243,19 @@
       "source": "scripts/build_agent_image.sh",
       "path": "scripts/build_agent_image.sh",
       "source_sha256": "e12d1b78352ecff0da859544470cb4d7b7d0df59701b97abab4bf5becff7a926",
-      "sha256": "a8fe2c74e13d1772c00d28f04ec9142cba61f6742cf778d4d8fa47222a538b41"
+      "sha256": "7d5b28c46055fd5a1ff38e723baa64203e2fb25de12c2b8763c08c87ede00dd9"
     },
     {
       "source": "scripts/prepare_robodojo.sh",
       "path": "scripts/prepare_robodojo.sh",
       "source_sha256": "ca1d09ecb38270ae714cffab3b59b02bc97de9c39aca5ed959bfdb9e1bb98de8",
-      "sha256": "cb782642dbc20074279ab146c7e9a92fe56cdbfd846cc012f2a8a75fdd437e3e"
+      "sha256": "a673d043f3b0991846ec9e2e774c8b7f849885c85d380a4f9f1146b9309e0030"
     },
     {
       "source": "scripts/relocate_robodojo.py",
       "path": "scripts/relocate_robodojo.py",
       "source_sha256": "6eb068259665a84538a1eaab3431d8b3ed654bbcd3ccfb8676b2beab39355e60",
-      "sha256": "467f2b01477e43e3fd7f2b52c73bab67880d6229aae16cb4469ff1dc7e829339"
+      "sha256": "a96fd7a45590a4fcdf72a9b7f5983b524f7ec7ba3a97d9c8002e9f9ffdaeaf1d"
     },
     {
       "source": "scripts/smoke_robodojo.py",
@@ -272,13 +273,13 @@
       "source": "scripts/smoke_session.py",
       "path": "scripts/smoke_session.py",
       "source_sha256": "bd5e97489e1fbf1e0a146804b57782eba901d44d823acbedb51d44921947036d",
-      "sha256": "b27681b0ce76e3583ecf7110e97c4bae8113e8dc888ca8565533139b0f443416"
+      "sha256": "dd858242b4d09848a6ecf2ef2992404b9d147097f3b8e45d7721b83377247302"
     },
     {
       "source": "simulators/__init__.py",
       "path": "simulators/__init__.py",
       "source_sha256": "631a8c5070d19e716a6df946aef680ea6178c1202a60bf913a73261e41d5860c",
-      "sha256": "a79b1e35c359222a5dc93a1a82585a2a0dd499cdc8bdfa8a1c95d7b846fe9fee"
+      "sha256": "59a187690496cdb1dd50fad9f7e448a883138982374e3ef7ac4fd89f91f5f3da"
     },
     {
       "source": "simulators/backend.py",
@@ -296,7 +297,7 @@
       "source": "simulators/image_entrypoint.py",
       "path": "simulators/image_entrypoint.py",
       "source_sha256": "93e29eb9630dc0d5769fa0a21e15eb15c68269429f7379d93827a43dd3f0c409",
-      "sha256": "a1ddb43ce8f1f92bff45b9e421d0f534a0b1dc3a5fafe98a4f47955d729f0c69"
+      "sha256": "d0a438d566415e68d4ac436e08603f16f4e74551c7ffc2215657170fe277fcea"
     },
     {
       "source": "simulators/interactive.py",
@@ -320,7 +321,7 @@
       "source": "simulators/robodojo.py",
       "path": "simulators/robodojo.py",
       "source_sha256": "194c4a993c02b54325ac9babf84d2537b02652f73de4143807006cc541088512",
-      "sha256": "8145b12150cc43dda7c501570c359cee2e63dedb16eedbea104998a8755d2c7a"
+      "sha256": "9cd6c4c49a2330275181a2ef498cd66faaeea4a9ed32ef0e23879a3ae6ffa4d4"
     },
     {
       "source": "simulators/robodojo_api.py",
@@ -344,7 +345,7 @@
       "source": "simulators/robodojo_scoring.py",
       "path": "simulators/robodojo_scoring.py",
       "source_sha256": "529c6cc5a4f94ff5a12ec966e1065a9b836feda0b4f89d2a638202bffe8a2fa3",
-      "sha256": "7088ec9f3bde416a902a0ecacfa4230c6210620e30e9643b025686b834708253"
+      "sha256": "05866102d74c14af2d23dd2bf24028468fbeae3672a3f27ad965bdb165c17e08"
     },
     {
       "source": "simulators/robodojo_startup.py",
@@ -404,7 +405,7 @@
       "source": "tasks/RoboDojo/Workspace/scripts/env.py",
       "path": "tasks/RoboDojo/Workspace/scripts/env.py",
       "source_sha256": "4909b392cd1513a970a34946b1d3e56787a39324fa2a40d331950485ccac24ca",
-      "sha256": "0a7c495bca028f3970319db362f3703ce7ee30d6915c4e0e1c00cc258fde042c"
+      "sha256": "f01b6302caf42b5a9733e0fa5539e69405c1b226994ee861234a98f7f2dfe946"
     },
     {
       "source": "tasks/RoboDojo/Workspace/skills/example.md",
@@ -692,7 +693,7 @@
       "source": "tasks/RoboDojo/task.toml",
       "path": "tasks/RoboDojo/task.toml",
       "source_sha256": "064900d424bd6a3dcb9ee77940d0e74a09d617baef3c77d7b6ab5cce0d9c9a36",
-      "sha256": "b27c9f14087348133eec8551afd4542d2f59643dbafbe2639f5bde9c8823223f"
+      "sha256": "507cfbb86963f2748faff61c891b880bc3ba1eef2d3685fd909a5df19449919b"
     },
     {
       "source": "tasks_baseline/RoboDojo/Workspace/instruction.md",
@@ -722,7 +723,7 @@
       "source": "tasks_baseline/RoboDojo/Workspace/scripts/env.py",
       "path": "tasks_baseline/RoboDojo/Workspace/scripts/env.py",
       "source_sha256": "c61346962037a9196a8ab3bb1e552d25b615c9e24714b19f0135a5779bac839b",
-      "sha256": "6658be231659c3bbfadf46473b7358230e0231c3b84de06b3dec22fe10aeff76"
+      "sha256": "dc5f1c99258a173c7c97a990042130ea1640a7d2a66e9f44debb71008483cf9f"
     },
     {
       "source": "tasks_baseline/RoboDojo/Workspace/submission/solution.py",
@@ -734,13 +735,13 @@
       "source": "tasks_baseline/RoboDojo/task.toml",
       "path": "tasks_baseline/RoboDojo/task.toml",
       "source_sha256": "44069530c99f25d258bc6d132e5c4b0592270d96c025db9c5f1ea70bee65042d",
-      "sha256": "e677b583d08538a36c286bb1479916b75def97e1ce3cbe92dcd66fc837896800"
+      "sha256": "ee651549e9ff25676a5a7297a7106c23ea2496243abca4fd38952c1bf667a619"
     },
     {
       "source": "tests/test_baseline.py",
       "path": "tests/test_baseline.py",
       "source_sha256": "c11714ce1810fba649fff6ffb841654b3afb3ad403d7b8f909975e5810d69952",
-      "sha256": "212c2370e60e25997404cdc75b349a246442baa4524c5b5cf0cb6f88c8dafc23"
+      "sha256": "e332e3d87418a57f7ab582b667f014f069a9da408c05273bf60af881057968f4"
     },
     {
       "source": "tests/test_environment_interface.py",
@@ -758,13 +759,13 @@
       "source": "tests/test_launch_agent.py",
       "path": "tests/test_launch_agent.py",
       "source_sha256": "e521c24de9c494888871151edd62b61345878a6a10383a8aee14eca1bfe26242",
-      "sha256": "5034e395f401c13de035612dc254ee4ecdd0e85ae2bd83f7f5b3ad78dd645e47"
+      "sha256": "a06ce34be43398fc0300980696257a1ae0812148bbdd35d8c08968b12738808a"
     },
     {
       "source": "tests/test_robodojo.py",
       "path": "tests/test_robodojo.py",
       "source_sha256": "ce4af882da604daf5defc0d6a19cc54eafea8a07820fd780fa55241a80cccdfd",
-      "sha256": "637c0e91e07beaa0d61fc81e82ba825bbf308794fa92d8052a2fa387ddf56262"
+      "sha256": "e504efdbb4fc935ffc677a5e4e2b12683f3ea0b661db71588b6cc91e006a71d9"
     },
     {
       "source": "tests/test_robodojo_capture.py",
@@ -776,19 +777,19 @@
       "source": "tests/test_robodojo_image.py",
       "path": "tests/test_robodojo_image.py",
       "source_sha256": "c3baa7cb5c18d5aa4bbaf5c32a76004ba30a89f461baa8042232079279a9eca0",
-      "sha256": "63e6342a8a57c8430302f3d4c7ebfd8b98d077f1416d4d4d0b119d91e93dd167"
+      "sha256": "68409668d4cc788e50dd9b414a90532ca9a3ed8ca00d383b76337ade0bc62fad"
     },
     {
       "source": "tests/test_robodojo_policy.py",
       "path": "tests/test_robodojo_policy.py",
       "source_sha256": "cd104ff1c685910c6a03ccc91865c7471353ea50464bdc8fdccfe24c2f03f2c0",
-      "sha256": "5460ac554e5cf10e26b4374d1f233f3099e49dd8b01cabe2dd298606cb1ee01b"
+      "sha256": "97a86b20b47ccd90a7c5f9dc71202799b1c52b46c50d3995703fd4ed068eaad7"
     },
     {
       "source": "tests/test_robodojo_policy_execution.py",
       "path": "tests/test_robodojo_policy_execution.py",
       "source_sha256": "4447e6aa2e7ca7c640320742a8831c38b8ccb535a789b46d029b058c442bb6dc",
-      "sha256": "466ea719af0c4b6c9dc2454aea4a303f99c5b677b5c69fccacf4653a6cc2f89b"
+      "sha256": "ac0ed8662b0e62b77778efe5bcb6764c27dceb96a6fc61f4440f809fa573f393"
     },
     {
       "source": "tests/test_robodojo_video.py",
@@ -833,39 +834,39 @@
     },
     {
       "path": "AGENTS.md",
-      "sha256": "c6e8322c56ff6152ef271ccd27121bc360eb71914d8d0f4dd03fa228c2d5c2b0"
+      "sha256": "2af2d2b55cd9e49da31191794716b05b499bfc372e38faa424b068ccd8862223"
     },
     {
       "path": "README.md",
-      "sha256": "ee8044b1a2787ee9e86b4defd724ebcc73f5cb747ca2f8e3ff9e3039f9103910"
+      "sha256": "9a6a3c051330b7d6d9a612890fd95d3c2375a67bb8f22d8701431455af431b91"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "e788705dace42009c21dd6008d47e843b7fe84b2b8d3c3a1c23f0862186fc9f1"
+      "sha256": "f26b2782c4c7d7839004d906967ca9413722c3ab566c67811e87ad65d50cb005"
     },
     {
       "path": "configs/runtime.example.json",
-      "sha256": "fafc2cce64b71f5be7f22c8d4572f5eeb5438723a63e84fa157ed29ff8e62375"
+      "sha256": "97c179149878b498e9f4166989e149cc64df0c0a82c0fa2577fd2883a4f0e36e"
     },
     {
       "path": "docs/INSTALL.md",
-      "sha256": "13dc1f4fd3855a9f501321d72a9a9bb15420725a0f3655e01475ec2433d5fd6b"
+      "sha256": "ee8b3edfc58ddbf73582bc1c1c85e444ef33cb998c76163b8076b57856d22780"
     },
     {
       "path": "docs/PROTOCOL.md",
-      "sha256": "f410941d4c024d833ea624c21f83084d2944ea8e50d9feb6020588c4fd8e58fe"
+      "sha256": "4c7cebc61792fcac73945c8f624aedf1420da973781b4531ef81a0c77e3e19ea"
     },
     {
       "path": "docs/RUNNING.md",
-      "sha256": "2843d903a6619c068166b8fc659e58ccab0160af99e17523b91d2960d0a94825"
+      "sha256": "2f4b43594cd5729655d330da85ab19659fffda8b86a5b270b06dedeb2314ec9a"
     },
     {
       "path": "docs/SOURCE.md",
-      "sha256": "211935909236ae15c4025cc86da5f86ffea63b31ab2a5817d86290604fc98ddb"
+      "sha256": "f5b8482431bb6b2bae28066debe6222f3e0153d05270db6cf74d016146354e55"
     },
     {
       "path": "integrations/robodojo_policy/README.md",
-      "sha256": "d78b4ad928dc7fe958ce3350bf0762c42fc7854449781faa8b7a303938140e40"
+      "sha256": "39fb1ee7e7e20440c798592cb71926da47d85bf6768727943eb17d3cc63babbf"
     },
     {
       "path": "requirements-host.txt",
@@ -873,23 +874,27 @@
     },
     {
       "path": "tasks/RoboDojo/recipe/README.md",
-      "sha256": "84bfeef060302ee7152098e9b51a1e1ecbe26213c4c802058f395e49d1c7324e"
+      "sha256": "9df84020debd8aa59f5327444a30eeb21ffbaa142be90f756761125f4a246b7d"
     },
     {
       "path": "tests/__init__.py",
-      "sha256": "57efae8936f2677ffae58f9f5a32c02198ae76999ebca222fb378f0d4eb3092b"
+      "sha256": "915a2b96503089df7131e0569151a54b4d691051ef806e3b6079240e03926d7f"
     },
     {
       "path": "docs/CODEX_API.md",
-      "sha256": "8b9919148c453cb554395402e3d58047ec854ec1adc24a7a8fe573c0689b71d3"
+      "sha256": "b813cca07d7b48bef1e284e9e8a3cfa585f0f6c33bb055f31c290210d7167580"
     },
     {
       "path": "configs/codex.openai.example.toml",
-      "sha256": "f9a1992ee471dc7df5be3d27b5f8ca65715da53846a950618ec56d3ac176f26c"
+      "sha256": "079dfaafd6c69031fba775446eb14533ccde8bcbf21a9936dfac7256c062a1a4"
     },
     {
       "path": "configs/codex.custom.example.toml",
-      "sha256": "46fb2a28fa093852ffcb480de3f8f34630435fc32eee4b581c11575b90246353"
+      "sha256": "b0263587b239b3edd32816073c9e5a2857c6618957fcd4e23aaecf8f2d370665"
+    },
+    {
+      "path": "docker/agent/.dockerignore",
+      "sha256": "dff903861d9f0c39b4b107cf206243154443e801c48042429b6eaeaa311c9f64"
     }
   ]
 }

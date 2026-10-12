@@ -31,7 +31,7 @@ def start_native(command, environment, run, stderr_tail):
     ready = run / "container-ready"
     if command[-2] == "-c":
         command = [*command[:-1], f"touch {shlex.quote(str(ready))}; " + command[-1]]
-    lock = Path(os.environ.get("EMBODIEDRSI_RUNTIME_DIR", "/tmp")) / f"embodiedrsi-native-start-{os.getuid()}.lock"
+    lock = Path(os.environ.get("EMBODIEDEVO_RUNTIME_DIR", "/tmp")) / f"embodiedevo-native-start-{os.getuid()}.lock"
     attempts = []
     for attempt in range(3):
         process = reader = None
@@ -77,7 +77,7 @@ def episode(cfg, task_run, run, phase, identity, gpu, args, *, flat=False, secon
 
     installed_profile = REPO / ".venv-robodojo/runtime.json"
     profile = read(installed_profile) if installed_profile.is_file() else {}
-    if override := os.environ.get("EMBODIEDRSI_ROBODOJO_RUNTIME_PROFILE"):
+    if override := os.environ.get("EMBODIEDEVO_ROBODOJO_RUNTIME_PROFILE"):
         profile.update(read(Path(override)))
     allocated = allocated_gpus(os.environ["SLURM_JOB_GPUS"]) if os.environ.get("SLURM_JOB_GPUS") else set()
     from orchestrator.host_policy import require_allowed
@@ -131,7 +131,7 @@ def episode(cfg, task_run, run, phase, identity, gpu, args, *, flat=False, secon
         profile["cache_dir"] = str(args.run_dir / "nv-cache")
         if args.material_mirror:
             profile["material_mirror"] = str(args.material_mirror.resolve())
-        with tempfile.TemporaryDirectory(prefix="embodiedrsi-xp-") as transport_dir:
+        with tempfile.TemporaryDirectory(prefix="embodiedevo-xp-") as transport_dir:
             unix_path = str(Path(transport_dir) / "policy.sock")
             with forward(unix_path, (socket.AF_INET, ("127.0.0.1", port)), unix=True):
                 temporary_root = Path(profile.get("temporary_root", args.run_dir / "runtime-tmp"))
@@ -143,7 +143,7 @@ def episode(cfg, task_run, run, phase, identity, gpu, args, *, flat=False, secon
                     (bridge / "work").mkdir()
                     native_argv = [
                         "-m", "integrations.robodojo_policy.bootstrap", "client", "--run-dir", str(run),
-                        "--gpu", str(gpu), "--transport-socket", "/run/embodiedrsi-policy/policy.sock",
+                        "--gpu", str(gpu), "--transport-socket", "/run/embodiedevo-policy/policy.sock",
                         "--cpu-threads", "8", "--video-threads", "2",
                     ]
                     if profile.get("reserve_monitor_pipe"):
@@ -164,10 +164,10 @@ def episode(cfg, task_run, run, phase, identity, gpu, args, *, flat=False, secon
                         native_argv += ["--disable-retired-collisions"]
                     command = apptainer_command(native_argv, profile, bridge, args.sif)
                     at = command.index(str(args.sif))
-                    command[at:at] = ["--bind", f"{transport_dir}:/run/embodiedrsi-policy"]
+                    command[at:at] = ["--bind", f"{transport_dir}:/run/embodiedevo-policy"]
                     environment = dict(os.environ, NVIDIA_VISIBLE_DEVICES=str(gpu),
                                        NVIDIA_DRIVER_CAPABILITIES="compute,utility,graphics,display,video")
-                    if cpus := environment.get("EMBODIEDRSI_SIMULATOR_CPUSET"):
+                    if cpus := environment.get("EMBODIEDEVO_SIMULATOR_CPUSET"):
                         command = ["taskset", "-c", cpus, *command]
                     try:
                         client, reader = start_native(command, environment, run, stderr_tail)
@@ -253,7 +253,7 @@ def run_episode(cfg, run, experiment, *, phase, seed, seconds, gpu, harness=None
     expected = experiment / "frozen_harness" if phase == "test" and not cfg.baseline else None
     if harness != expected:
         raise ValueError("Unexpected frozen harness for this phase or Baseline")
-    profile = read(Path(os.environ["EMBODIEDRSI_ROBODOJO_RUNTIME_PROFILE"]))
+    profile = read(Path(os.environ["EMBODIEDEVO_ROBODOJO_RUNTIME_PROFILE"]))
     sif = Path(profile["sif"])
     if not sif.is_file():
         raise FileNotFoundError(sif)

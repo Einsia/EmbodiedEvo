@@ -1,4 +1,4 @@
-"""The single simulator boundary used by EmbodiedRSI.
+"""The single simulator boundary used by EmbodiedEvo.
 
 Every task is a Gymnasium environment.  The action is always one complete
 Python source string; the simulator-specific code only decides how that

@@ -26,7 +26,7 @@ from scripts import smoke_session
 
 class BaselineTests(unittest.TestCase):
     def setUp(self):
-        recipe_switch = patch.dict(os.environ, {"EMBODIEDRSI_USE_RECIPE": "0"})
+        recipe_switch = patch.dict(os.environ, {"EMBODIEDEVO_USE_RECIPE": "0"})
         recipe_switch.start()
         self.addCleanup(recipe_switch.stop)
         self.temp = tempfile.TemporaryDirectory()

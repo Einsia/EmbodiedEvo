@@ -3,9 +3,9 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "embodiedrsi"
+name = "embodiedevo"
 version = "0.1.0"
-description = "EmbodiedRSI: persistent coding agents with frozen skills and lessons on RoboDojo"
+description = "EmbodiedEvo: persistent coding agents with frozen skills and lessons on RoboDojo"
 readme = "README.md"
 requires-python = ">=3.11"
 
@@ -17,14 +17,14 @@ dev = ["ruff>=0.4"]
 policy = ["websockets==15.0.1"]
 
 [project.scripts]
-embodiedrsi = "orchestrator.__main__:main"
+embodiedevo = "orchestrator.__main__:main"
 
 [tool.setuptools.packages.find]
 include = ["simulators*", "environments*", "orchestrator*", "integrations*", "scripts*"]
 
 [tool.setuptools.package-data]
 orchestrator = ["*.md", "instructions/*.md"]
-"integrations.robodojo_policy.policy.EmbodiedRSI" = ["deploy.yml"]
+"integrations.robodojo_policy.policy.EmbodiedEvo" = ["deploy.yml"]
 
 [tool.ruff]
 line-length = 100

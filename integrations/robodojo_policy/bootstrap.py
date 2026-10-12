@@ -41,7 +41,7 @@ def imports():
 
 async def serve(spec):
     from client_server.ws.model_server import PolicyServer, PolicyServerConfig
-    from XPolicyLab.policy.EmbodiedRSI.model import Model
+    from XPolicyLab.policy.EmbodiedEvo.model import Model
     from orchestrator.files import write_json
     model = Model(spec)
     server = PolicyServer(model, PolicyServerConfig(host="127.0.0.1", port=spec["port"]))
@@ -61,7 +61,7 @@ async def serve(spec):
 
 
 def create_native_env(factory, config, app, **kwargs):
-    if os.environ.get("EMBODIEDRSI_ROBODOJO_RENDERER_BARRIER") == "1":
+    if os.environ.get("EMBODIEDEVO_ROBODOJO_RENDERER_BARRIER") == "1":
         from simulators.robodojo_startup import wait_for_renderer
 
         wait_for_renderer(app)
@@ -101,12 +101,12 @@ def main(argv=None):
         if (args.reuse_reset_rigid_bodies or args.disable_retired_collisions) and spec.get("phase") != "playground":
             raise ValueError("Fixed-scene rigid reuse is only supported in Playground")
         if args.cpu_threads:
-            os.environ["EMBODIEDRSI_ROBODOJO_KIT_ARGS"] = (
-                os.environ.get("EMBODIEDRSI_ROBODOJO_KIT_ARGS", "")
+            os.environ["EMBODIEDEVO_ROBODOJO_KIT_ARGS"] = (
+                os.environ.get("EMBODIEDEVO_ROBODOJO_KIT_ARGS", "")
                 + f" --/plugins/carb.tasking.plugin/threadCount={args.cpu_threads}"
             )
         if args.video_threads:
-            os.environ["EMBODIEDRSI_ROBODOJO_VIDEO_THREADS"] = str(args.video_threads)
+            os.environ["EMBODIEDEVO_ROBODOJO_VIDEO_THREADS"] = str(args.video_threads)
         os.chdir(args.run_dir / "official")
         os.environ["EVAL_NUM"] = str(spec["episodes"])
         os.environ["ROBODOJO_RUN_ID"] = args.run_dir.name
@@ -117,13 +117,13 @@ def main(argv=None):
         sys.argv = [str(VENDOR / "src/eval_client/main.py"),
                     "--task_name", spec["env_task"], "--num_envs", "1",
                     "--env_cfg_type", "arx_x5", "--device_id", "0",
-                    "--policy_name", "EmbodiedRSI", "--host", "127.0.0.1",
+                    "--policy_name", "EmbodiedEvo", "--host", "127.0.0.1",
                     "--port", str(spec["port"]), "--protocol", "ws",
                     "--seed", str(spec["seed"]),
                     "--additional_info", "ckpt_name=frozen_harness,action_type=ee",
                     "--headless", "--enable_cameras"]
-        if os.environ.get("EMBODIEDRSI_ROBODOJO_KIT_ARGS"):
-            sys.argv += ["--kit_args", os.environ["EMBODIEDRSI_ROBODOJO_KIT_ARGS"]]
+        if os.environ.get("EMBODIEDEVO_ROBODOJO_KIT_ARGS"):
+            sys.argv += ["--kit_args", os.environ["EMBODIEDEVO_ROBODOJO_KIT_ARGS"]]
         if args.ready_fd is not None:
             os.write(args.ready_fd, b'{"event":"client_starting"}\n')
         write_json(args.run_dir / "official-client.json", {"status": "running", "pid": os.getpid()})
@@ -139,7 +139,7 @@ def main(argv=None):
             PhysXWarningMonitor._enlarge_pipe = lambda monitor, fd: reserve_monitor_pipe(
                 fd, args.run_dir / "pipe-reservations.jsonl")
         namespace = runpy.run_path(str(VENDOR / "src/eval_client/main.py"),
-                                  run_name="embodiedrsi_official_client")
+                                  run_name="embodiedevo_official_client")
         native_main = namespace["main"]
         native_factory = namespace["create_eval_env"]
         if args.video_threads:
@@ -152,7 +152,7 @@ def main(argv=None):
             pass
 
         def create_env(*positional, **keywords):
-            from XPolicyLab.policy.EmbodiedRSI.deploy import AdapterFailure
+            from XPolicyLab.policy.EmbodiedEvo.deploy import AdapterFailure
             from simulators.robodojo_capture import install_capture_cleanup
 
             env = create_native_env(native_factory, *positional, **keywords)
@@ -169,7 +169,7 @@ def main(argv=None):
                     pending_layouts.pop() if pending_layouts else None
                 )
             if spec.get("phase") == "playground" or spec.get("diagnostic"):
-                from XPolicyLab.policy.EmbodiedRSI.deploy import playground_one_session
+                from XPolicyLab.policy.EmbodiedEvo.deploy import playground_one_session
 
                 def run_playground():
                     playground_one_session(env, env.model_client)
@@ -195,7 +195,7 @@ def main(argv=None):
             def checked_reset(*values, **options):
                 nonlocal reset_count
                 try:
-                    # Reuse EmbodiedRSI's native reset repairs; no second simulator
+                    # Reuse EmbodiedEvo's native reset repairs; no second simulator
                     # or alternate controller is constructed here.
                     from simulators.robodojo import RoboDojoTask
                     repair = types.SimpleNamespace(

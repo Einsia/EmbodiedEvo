@@ -6,7 +6,9 @@
      Update the provisional BibTeX entry below after the arXiv release. -->
 <p align="center">
   <img src="https://img.shields.io/badge/arXiv-Coming%20soon-B31B1B?style=flat-square" alt="arXiv: coming soon" />
-  <img src="https://img.shields.io/badge/Project%20Page-Coming%20soon-315F85?style=flat-square" alt="Project Page: coming soon" />
+  <a href="https://lab.einsia.ai/embodiedevo/">
+    <img src="https://img.shields.io/badge/Project%20Page-Website-315F85?style=flat-square" alt="Project Page" />
+  </a>
 </p>
 
 <p align="center">

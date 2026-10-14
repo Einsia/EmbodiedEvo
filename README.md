@@ -1,26 +1,36 @@
-# EmbodiedEvo: Self-improving Code Agents for Physical Intelligence
+# EmbodiedEvo: Self-Evolving Coding Agent For Physical Intelligence
 
-<!-- Release links: wrap each badge in an <a> when its page is available.
-     arXiv: https://arxiv.org/abs/ARXIV_ID
-     Project page: https://lab.einsia.ai/embodiedevo/
-     Update the provisional BibTeX entry below after the arXiv release. -->
 <p align="center">
-  <img src="https://img.shields.io/badge/arXiv-Coming%20soon-B31B1B?style=flat-square" alt="arXiv: coming soon" />
+  <a href="https://arxiv.org/abs/2610.18867">
+    <img src="https://img.shields.io/badge/arXiv-2610.18867-B31B1B?style=flat-square" alt="arXiv: 2610.18867" />
+  </a>
   <a href="https://lab.einsia.ai/embodiedevo/">
     <img src="https://img.shields.io/badge/Project%20Page-Website-315F85?style=flat-square" alt="Project Page" />
   </a>
 </p>
 
 <p align="center">
-  <img src="docs/images/embodiedevo-hero.png" alt="EmbodiedEvo overview: a coding agent learns Skills and Lessons from physical feedback in Playground, then freezes and transfers them to fresh agents in new Test scenes." width="100%" />
+  <img src="docs/images/embodiedevo-hero.png" alt="EmbodiedEvo overview: a coding agent observes physical feedback, revises and executes control code, and accumulates reusable Skills and Lessons that are frozen and transferred to a fresh agent in each new Test scene." width="100%" />
 </p>
 
-**Building visual and physical intelligence through code.**
+**Observe, revise code, and act. Learn Skills and Lessons from physical feedback.**
 
-EmbodiedEvo runs a coding agent in a persistent RoboDojo simulation session. During
-Playground, the agent observes the scene, executes Python, and writes reusable
-Skills and Lessons. Test freezes that knowledge and starts a fresh agent,
-workspace and simulator for each new scene.
+EmbodiedEvo connects a coding agent's workspace to a persistent RoboDojo simulation
+session. The agent inspects observations, edits Python control code, executes it,
+and uses the resulting physical feedback to guide its next revision. Its evolving
+knowledge lives in reusable code and written lessons in the workspace.
+
+1. **Observe, revise, execute.** Inspect camera observations and robot state,
+   update control code, and execute the revised segment in the same Python and
+   simulation session. New observations close the interaction loop.
+2. **Build Skills and Lessons in Playground.** Turn interaction experience into
+   reusable helpers in `skills/` and practical guidance in `lessons/`, such as
+   grasping from above, verifying a grasp, or carrying an object in small steps.
+   Playground permits same-scene resets while the agent refines this knowledge.
+3. **Freeze and reuse in Test.** Freeze only `skills/` and `lessons/` before
+   selecting Test scenes. Each scene starts with a fresh agent, workspace, and
+   simulator. The transferred knowledge is read-only; the agent can observe and
+   revise code within the scene, but cannot reset or learn across Test scenes.
 
 ## Setup
 
@@ -104,15 +114,19 @@ recipes retain their Apache-2.0 license and source attribution; see
 
 ## Citation
 
-If you use EmbodiedEvo in your research, please cite the manuscript below.
-This provisional citation will be updated with the arXiv identifier after release.
+If you use EmbodiedEvo in your research, please cite our
+[paper](https://arxiv.org/abs/2610.18867).
 
 ```bibtex
-@misc{li2026embodiedevo,
-  title  = {{EmbodiedEvo}: Self-improving Code Agents for Physical Intelligence},
-  author = {Li, Wenyi and Chi, Yizhe and Zheng, Youjie and Liu, Chunyu and
-            Wang, Xiaoqiu and Gao, Mingju and Jiang, Zheng and Hong, Deyao and
-            Xiao, Calvin and Yang, Kaisen and Na, Qinhuai},
-  year   = {2026}
+@misc{li2026embodiedevoselfimprovingcodingagents,
+  title         = {EmbodiedEvo: Self-improving Coding Agents for Physical Intelligence},
+  author        = {Wenyi Li and Yizhe Chi and Youjie Zheng and Chunyu Liu and
+                   Xiaoqiu Wang and Mingju Gao and Zheng Jiang and Deyao Hong and
+                   Calvin Xiao and Kaisen Yang and Qinhuai Na},
+  year          = {2026},
+  eprint        = {2610.18867},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2610.18867}
 }
 ```

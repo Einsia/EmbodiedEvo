@@ -298,7 +298,7 @@ class Session:
             (folder / "stdout.txt").write_text(result.stdout)
             (folder / "stderr.txt").write_text(result.stderr)
             write_json(folder / "result.json", public)
-            with (self.run / "ledger.jsonl").open("a") as stream:
+            with (self.run / "ledger.jsonl").open("a", encoding="utf-8") as stream:
                 stream.write(
                     json.dumps(
                         {

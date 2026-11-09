@@ -136,8 +136,8 @@ If you use EmbodiedEvo in your research, please cite our
 [paper](https://arxiv.org/abs/2610.18867).
 
 ```bibtex
-@misc{li2026embodiedevoselfimprovingcodingagents,
-  title         = {EmbodiedEvo: Self-improving Coding Agents for Physical Intelligence},
+@misc{li2026embodiedevo,
+  title         = {EmbodiedEvo: Self-improving Coding Agent for Physical Intelligence},
   author        = {Wenyi Li and Yizhe Chi and Youjie Zheng and Chunyu Liu and
                    Xiaoqiu Wang and Mingju Gao and Zheng Jiang and Deyao Hong and
                    Calvin Xiao and Kaisen Yang and Qinhuai Na},
